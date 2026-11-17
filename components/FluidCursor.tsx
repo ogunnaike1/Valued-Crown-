@@ -306,13 +306,29 @@ export default function FluidCursor() {
       splat(px, py, dx * SPLAT_FORCE, dy * SPLAT_FORCE, Math.min(0.14 + speed * 30, 0.62), Math.min(speed * 60, 1));
       lastActive = t;
     };
+    // Speed limiter: if frames keep taking too long, first simulate every other frame, then switch the trail off
+    // for good, so a slow machine never ends up with a stuttering pointer.
+    let avg = 16.7, level = 0, slowRun = 0, frame = 0, dead = false;
     const loop = (t: number) => {
-      const dt = Math.min((t - last) / 1000, 1 / 30);
+      const ms = t - last;
+      const dt = Math.min(ms / 1000, 1 / 30);
       last = t;
+      if (ms < 250) { // ignore tab-switch gaps
+        avg += (ms - avg) * 0.1;
+        slowRun = avg > (level === 0 ? 24 : 30) ? slowRun + 1 : 0;
+        if (slowRun > 40) {
+          slowRun = 0; avg = 16.7; level++;
+          if (level >= 2) { // still too slow even at half rate: stop for good
+            dead = true; running = false;
+            window.removeEventListener("pointermove", onMove);
+            gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+            return;
+          }
+        }
+      }
       if (pending) applyPending(t);
-      step(dt);
-      render();
-      if (t - lastActive > 1800) { // fully dissolved: stop until the pointer moves again
+      if (level === 0 || (++frame & 1) === 0) { step(dt * (level === 0 ? 1 : 2)); render(); }
+      if (!dead && t - lastActive > 1800) { // fully dissolved: stop until the pointer moves again
         running = false;
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);

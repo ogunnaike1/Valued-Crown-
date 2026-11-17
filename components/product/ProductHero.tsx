@@ -11,6 +11,8 @@ const bgClass = { ink: "bg-ink text-paper", paper: "" } as const;
 export default function ProductHero({ product: p }: { product: Product }) {
   const cta = productCta(p);
   const theme = heroTheme[p.slug];
+  // Products with a real software screenshot show it instead of the stock photo.
+  const img = p.screenshot ? { src: p.screenshot.src, alt: p.screenshot.alt, position: "50% 0%" } : p.image;
   const split = p.slug === "restaurant-manager" || p.slug === "shop-manager";
   const reversed = p.slug === "shop-manager";
   const btnSolid = theme === "ink" ? { bg: "#FAFCFF", fg: "#041433" } : {};
@@ -46,7 +48,7 @@ export default function ProductHero({ product: p }: { product: Product }) {
           <div className={reversed ? "lg:order-2" : ""}>{copy}</div>
           <Reveal delay={200} className={reversed ? "lg:order-1" : ""}>
             <div data-img-reveal className="relative w-full aspect-[4/3] overflow-hidden bg-ink">
-              <Image src={p.image.src} alt={p.image.alt} fill priority unoptimized sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" style={{ objectPosition: p.image.position }} />
+              <Image src={img.src} alt={img.alt} fill priority unoptimized sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" style={{ objectPosition: img.position }} />
             </div>
           </Reveal>
         </div>
@@ -55,7 +57,7 @@ export default function ProductHero({ product: p }: { product: Product }) {
           {copy}
           <Reveal delay={300} className="mt-[clamp(34px,4.2vw,67px)]">
             <div data-img-reveal className="relative w-full aspect-[16/9] max-h-[640px] overflow-hidden bg-ink">
-              <Image src={p.image.src} alt={p.image.alt} fill priority unoptimized sizes="100vw" className="object-cover" style={{ objectPosition: p.image.position }} />
+              <Image src={img.src} alt={img.alt} fill priority unoptimized sizes="100vw" className="object-cover" style={{ objectPosition: img.position }} />
             </div>
           </Reveal>
         </>
