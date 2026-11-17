@@ -21,7 +21,7 @@ interface Props {
 /** Link-button with roll-text hover and optional magnetic pull. Internal hrefs use next/link. */
 export default function Btn({
   href, label, variant = "solid", arrow, height = 56, padX = 24,
-  borderColor = "currentColor", bg, fg, magnetic = true, className = "", style,
+  borderColor = "currentColor", bg, fg, magnetic = false, className = "", style,
 }: Props) {
   const ref = useRef<HTMLAnchorElement>(null);
 
