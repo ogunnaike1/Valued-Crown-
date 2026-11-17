@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Nunito, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
 
-// Headings: Nunito ExtraBold / Black. Body, buttons and navigation: Plus Jakarta Sans. (Mono is kept for the small technical labels.)
-const display = Nunito({ subsets: ["latin"], weight: ["800", "900"], variable: "--font-display", display: "swap" });
-const body = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-body", display: "swap" });
-const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
+// Fonts are self-hosted (app/fonts, variable woff2, latin subset) so builds never depend on Google Fonts being reachable.
+// Headings: Nunito ExtraBold. Body, buttons and navigation: Plus Jakarta Sans. Mono: JetBrains Mono (small technical labels).
+const display = localFont({ src: [{ path: "./fonts/Nunito.woff2", weight: "200 1000", style: "normal" }], variable: "--font-display", display: "swap" });
+const body = localFont({ src: [{ path: "./fonts/PlusJakartaSans.woff2", weight: "200 800", style: "normal" }], variable: "--font-body", display: "swap" });
+const mono = localFont({ src: [{ path: "./fonts/JetBrainsMono.woff2", weight: "100 800", style: "normal" }], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
