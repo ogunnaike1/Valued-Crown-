@@ -27,3 +27,10 @@ export const socials = [
   { id: "x", label: "X (Twitter)", url: process.env.NEXT_PUBLIC_X_URL || "" },
   { id: "linkedin", label: "LinkedIn", url: process.env.NEXT_PUBLIC_LINKEDIN_URL || "" },
 ] as const;
+
+/** Contact details shown in the footer. Set in .env.local; an empty value falls back to the contact page. */
+export const contactInfo = {
+  address: process.env.NEXT_PUBLIC_ADDRESS || "",
+  phone: process.env.NEXT_PUBLIC_PHONE || "",
+  email: process.env.NEXT_PUBLIC_EMAIL || "",
+};
