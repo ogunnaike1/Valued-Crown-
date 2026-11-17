@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import Logo from "../Logo";
 import LogoMark from "../LogoMark";
 import Reveal from "../Reveal";
 import { siteDomains, type Product } from "@/data/products";
@@ -86,10 +87,7 @@ export default function MicroSite({ p }: { p: Product }) {
       {/* nav */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-line">
         <div className={`${wrap} h-[76px] flex items-center justify-between gap-6`}>
-          <a href="#top" className="flex items-center gap-3" aria-label={`${p.name} home`}>
-            <span className="block w-[44px] h-[30px] text-ink"><LogoMark className="w-full h-full" /></span>
-            <span className="font-display font-bold text-[21px] tracking-[-0.03em]">{p.name}</span>
-          </a>
+          <a href="#top" className="flex-none text-ink" aria-label="Valued Crown Technologies, back to top"><Logo tone="ink" /></a>
           <nav aria-label="Product" className="hidden lg:flex items-center gap-1 text-[15px] font-medium">
             <a href="#top" className="px-4 h-10 flex items-center opacity-80 hover:opacity-100">Overview</a>
 
@@ -134,7 +132,7 @@ export default function MicroSite({ p }: { p: Product }) {
               </div>
             </div>
           </nav>
-          <Link href={demo} className="h-12 px-7 bg-ink text-paper flex items-center gap-2 text-[15px] font-semibold hover:bg-ink-2 transition-colors">Buy now <span aria-hidden="true" style={{ color: orange }}>→</span></Link>
+          <Link href={demo} className="h-12 px-5 sm:px-7 bg-ink text-paper flex flex-none items-center gap-2 whitespace-nowrap text-[15px] font-semibold hover:bg-ink-2 transition-colors">Buy now <span aria-hidden="true" style={{ color: orange }}>→</span></Link>
         </div>
       </header>
       <div id="top" />
@@ -288,7 +286,7 @@ export default function MicroSite({ p }: { p: Product }) {
       <footer className="bg-ink text-paper">
         <div className={`${wrap} py-[clamp(40px,5vw,72px)] grid grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] gap-x-8 gap-y-10`}>
           <div className="col-span-2 lg:col-span-1 flex flex-col gap-4">
-            <span className="flex items-center gap-3"><span className="block w-[44px] h-[30px]"><LogoMark className="w-full h-full" /></span><span className="font-display font-bold text-[20px] tracking-[-0.03em]">{p.name}</span></span>
+            <Logo tone="light" className="self-start" />
             <p className="m-0 text-[15px] leading-[1.7] text-paper/65 max-w-[34ch]">{p.tagline}</p>
             <span className="font-mono text-[11px] tracking-[.2em] uppercase text-paper/45">{domain}</span>
           </div>
