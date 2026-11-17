@@ -25,9 +25,9 @@ export default function Cursor() {
 
     document.documentElement.classList.add("vc-cursor");
     gsap.set(d, { xPercent: -50, yPercent: -50, x: innerWidth / 2, y: innerHeight / 2 });
-    const dur = reduce ? 0.05 : 0.14;
-    const qx = gsap.quickTo(d, "x", { duration: dur, ease: "power3.out" });
-    const qy = gsap.quickTo(d, "y", { duration: dur, ease: "power3.out" });
+    const dur = reduce ? 0.05 : 0.04; // near-instant: the native cursor is hidden, so any easing reads as lag
+    const qx = gsap.quickTo(d, "x", { duration: dur, ease: "none" });
+    const qy = gsap.quickTo(d, "y", { duration: dur, ease: "none" });
 
     let mode: Mode = "default";
     let down = false;
@@ -56,10 +56,11 @@ export default function Cursor() {
       apply();
     };
 
-    const move = (e: PointerEvent) => {
-      qx(e.clientX); qy(e.clientY);
-      gsap.to(r, { opacity: 1, duration: 0.25, overwrite: "auto" });
-      const t = e.target as Element | null;
+    // Position updates are immediate; the (more expensive) hit-test for links/labels runs at most once per frame.
+    let shown = false, raf = 0, target: Element | null = null;
+    const hit = () => {
+      raf = 0;
+      const t = target;
       const lt = t?.closest?.("[data-cursor-label]") as HTMLElement | null;
       const it = t?.closest?.("a,button,[role=button],[role=tab],summary,label");
       if (t?.closest?.("input,textarea,select")) setMode("input");
@@ -67,15 +68,22 @@ export default function Cursor() {
       else if (it) setMode("link");
       else setMode("default");
     };
+    const move = (e: PointerEvent) => {
+      qx(e.clientX); qy(e.clientY);
+      if (!shown) { shown = true; gsap.to(r, { opacity: 1, duration: 0.25, overwrite: "auto" }); }
+      target = e.target as Element | null;
+      if (!raf) raf = requestAnimationFrame(hit);
+    };
     const onDown = () => { down = true; apply(); };
     const onUp = () => { down = false; apply(); };
-    const leave = () => gsap.to(r, { opacity: 0, duration: 0.25 });
+    const leave = () => { shown = false; gsap.to(r, { opacity: 0, duration: 0.25 }); };
 
-    window.addEventListener("pointermove", move);
+    window.addEventListener("pointermove", move, { passive: true });
     window.addEventListener("pointerdown", onDown);
     window.addEventListener("pointerup", onUp);
     document.documentElement.addEventListener("mouseleave", leave);
     return () => {
+      cancelAnimationFrame(raf);
       document.documentElement.classList.remove("vc-cursor");
       window.removeEventListener("pointermove", move);
       window.removeEventListener("pointerdown", onDown);

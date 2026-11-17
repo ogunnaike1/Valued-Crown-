@@ -2,13 +2,14 @@ import Btn from "../Btn";
 import Reveal from "../Reveal";
 import SplitHeading from "../SplitHeading";
 import Image from "next/image";
-import type { Product } from "@/data/products";
+import { productCta, type Product } from "@/data/products";
 
 export const heroTheme = { "hotel-manager": "ink", "restaurant-manager": "paper", "shop-manager": "ink", "laundry-manager": "paper" } as const;
 const bgClass = { ink: "bg-ink text-paper", paper: "" } as const;
 
 /** Product hero. Hotel & Laundry use a centred layout with the preview below; Restaurant & Retail split it. */
 export default function ProductHero({ product: p }: { product: Product }) {
+  const cta = productCta(p);
   const theme = heroTheme[p.slug];
   const split = p.slug === "restaurant-manager" || p.slug === "shop-manager";
   const reversed = p.slug === "shop-manager";
@@ -32,7 +33,7 @@ export default function ProductHero({ product: p }: { product: Product }) {
       </Reveal>
       <Reveal as="p" delay={250} className={`mt-4 text-[16px] leading-[1.55] opacity-75 ${split ? "max-w-[480px]" : "max-w-[620px]"}`}>{p.subtitle}</Reveal>
       <Reveal delay={350} className={`mt-8 flex flex-wrap gap-2 ${split ? "" : "justify-center"}`}>
-        <Btn href={`/contact?interest=${p.slug}`} label="Enquire now" arrow {...btnSolid} />
+        <Btn href={cta.href} label={cta.label} newTab arrow {...btnSolid} />
         <Btn href="#features" label="See the features" variant="outline" borderColor={outline} />
       </Reveal>
     </div>

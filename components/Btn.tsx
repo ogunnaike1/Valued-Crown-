@@ -14,6 +14,7 @@ interface Props {
   bg?: string;
   fg?: string;
   magnetic?: boolean;
+  newTab?: boolean;
   className?: string;
   style?: CSSProperties;
 }
@@ -21,7 +22,7 @@ interface Props {
 /** Link-button with roll-text hover and optional magnetic pull. Internal hrefs use next/link. */
 export default function Btn({
   href, label, variant = "solid", arrow, height = 56, padX = 24,
-  borderColor = "currentColor", bg, fg, magnetic = false, className = "", style,
+  borderColor = "currentColor", bg, fg, magnetic = false, newTab = false, className = "", style,
 }: Props) {
   const ref = useRef<HTMLAnchorElement>(null);
 
@@ -52,5 +53,6 @@ export default function Btn({
     </>
   );
   const common = { ref, onPointerMove: move, onPointerLeave: leave, className: cls, style: st };
-  return href.startsWith("/") ? <Link href={href} {...common}>{inner}</Link> : <a href={href} {...common}>{inner}</a>;
+  const tab = newTab || /^https?:/.test(href) ? { target: "_blank", rel: "noopener noreferrer" } : {};
+  return href.startsWith("/") ? <Link href={href} {...common} {...tab}>{inner}</Link> : <a href={href} {...common} {...tab}>{inner}</a>;
 }

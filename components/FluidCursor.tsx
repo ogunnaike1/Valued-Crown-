@@ -10,12 +10,12 @@ import { useIsoLayoutEffect } from "@/lib/gsap";
  * Fine pointers + WebGL2 only; skipped for reduced motion.
  */
 
-const SIM_RES = 128;
-const DYE_RES = 512;
+const SIM_RES = 80;
+const DYE_RES = 256;
 const DENSITY_DISSIPATION = 3.6;
 const VELOCITY_DISSIPATION = 1.4;
 const PRESSURE = 0.8;
-const PRESSURE_ITERATIONS = 14;
+const PRESSURE_ITERATIONS = 7;
 const CURL = 22;
 const SPLAT_RADIUS = 0.00058;
 const SKY = [0.36, 0.72, 1.0];
@@ -185,7 +185,7 @@ export default function FluidCursor() {
 
     let velocity!: DFBO, dye!: DFBO, divergence!: FBO, curl!: FBO, pressure!: DFBO;
     const init = () => {
-      const dpr = Math.min(devicePixelRatio || 1, 1.5);
+      const dpr = 1; // the liquid is soft, so a 1x canvas looks the same and costs far less on retina screens
       canvas.width = Math.floor(innerWidth * dpr);
       canvas.height = Math.floor(innerHeight * dpr);
       const sim = resolution(SIM_RES), dr = resolution(DYE_RES);
@@ -283,27 +283,36 @@ export default function FluidCursor() {
       blit(null);
     };
 
-    // pointer input
+    // pointer input: moves are accumulated and applied once per animation frame, so a fast mouse (events can fire
+    // faster than the screen refreshes) never queues up more GPU work than one frame can draw
     let lx = -1, ly = -1, lastActive = 0, raf = 0, last = performance.now(), running = false;
+    let px = 0, py = 0, pdx = 0, pdy = 0, pending = false;
     const onMove = (e: PointerEvent) => {
       const x = e.clientX / innerWidth, y = 1 - e.clientY / innerHeight;
       if (lx < 0) { lx = x; ly = y; }
+      pdx += x - lx; pdy += y - ly;
+      lx = x; ly = y; px = x; py = y;
+      pending = true;
+      if (!running) { running = true; last = performance.now(); lastActive = last; raf = requestAnimationFrame(loop); }
+    };
+    const applyPending = (t: number) => {
+      pending = false;
       const aspect = canvas.width / canvas.height;
-      let dx = x - lx, dy = y - ly;
+      let dx = pdx, dy = pdy;
+      pdx = 0; pdy = 0;
       if (aspect < 1) dx *= aspect; else dy /= aspect;
-      lx = x; ly = y;
       const speed = Math.hypot(dx, dy);
       if (speed < 0.00005) return;
-      splat(x, y, dx * SPLAT_FORCE, dy * SPLAT_FORCE, Math.min(0.14 + speed * 30, 0.62), Math.min(speed * 60, 1));
-      lastActive = performance.now();
-      if (!running) { running = true; last = lastActive; raf = requestAnimationFrame(loop); }
+      splat(px, py, dx * SPLAT_FORCE, dy * SPLAT_FORCE, Math.min(0.14 + speed * 30, 0.62), Math.min(speed * 60, 1));
+      lastActive = t;
     };
     const loop = (t: number) => {
       const dt = Math.min((t - last) / 1000, 1 / 30);
       last = t;
+      if (pending) applyPending(t);
       step(dt);
       render();
-      if (t - lastActive > 2200) { // fully dissolved: stop until the pointer moves again
+      if (t - lastActive > 1800) { // fully dissolved: stop until the pointer moves again
         running = false;
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
@@ -313,7 +322,7 @@ export default function FluidCursor() {
     };
     const onResize = () => { init(); };
 
-    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("resize", onResize);
     return () => {
       cancelAnimationFrame(raf);

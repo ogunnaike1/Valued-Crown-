@@ -2,7 +2,7 @@ import Link from "next/link";
 import Reveal from "../Reveal";
 import SplitHeading from "../SplitHeading";
 import FeatureExplorer from "./FeatureExplorer";
-import { products, retailOperations, type Product } from "@/data/products";
+import { products, productCta, retailOperations, type Product } from "@/data/products";
 
 const label = "label";
 
@@ -13,7 +13,7 @@ export function Overview({ p }: { p: Product }) {
         <Reveal as="span" className={`${label} pt-3`}>Overview</Reveal>
         <div className="flex flex-col gap-8">
           {p.intro.map((t, i) => (
-            <Reveal as="p" key={i} delay={i * 100} className={`m-0 font-display font-medium tracking-[-0.03em] leading-[1.08] [text-wrap:pretty] ${i === 0 ? "text-[clamp(26px,3.4vw,58px)]" : "text-[clamp(20px,2vw,32px)] opacity-70 max-w-[900px]"}`}>{t}</Reveal>
+            <Reveal as="p" key={i} delay={i * 100} className={`m-0 font-display font-medium tracking-[-0.03em] leading-[1.08] [text-wrap:pretty] text-[clamp(20px,2vw,32px)] max-w-[900px]`}>{t}</Reveal>
           ))}
         </div>
       </div>
@@ -174,6 +174,7 @@ export function IdealFor({ p }: { p: Product }) {
 }
 
 export function Closing({ p }: { p: Product }) {
+  const cta = productCta(p);
   const others = products.filter((x) => x.slug !== p.slug);
   return (
     <>
@@ -186,7 +187,7 @@ export function Closing({ p }: { p: Product }) {
         </div>
         <Reveal className="mt-[clamp(34px,4.2vw,62px)] pt-6 border-t border-current/20 flex flex-wrap items-center justify-between gap-6">
           <span className="font-display font-medium text-[clamp(22px,2.4vw,40px)] tracking-[-0.03em]">{p.tagline}</span>
-          <Link href={`/contact?interest=${p.slug}`} className="h-[60px] px-7 bg-paper text-ink flex items-center gap-3 font-medium text-[15px]">Enquire now <span>→</span></Link>
+          <Link href={cta.href} {...(cta.newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})} className="h-[60px] px-7 bg-paper text-ink flex items-center gap-3 font-medium text-[15px]">{cta.label} <span>→</span></Link>
         </Reveal>
       </section>
 

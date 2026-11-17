@@ -9,6 +9,8 @@ export interface ProductImage { src: string; alt: string; position: string }
 export interface Product {
   slug: ProductSlug;
   image: ProductImage;
+  /** Real screenshot of the software, shown in the product site instead of the drawn preview. */
+  screenshot?: { src: string; alt: string; width: number; height: number };
   name: string;
   industry: string; // short category label
   subtitle: string;
@@ -76,6 +78,7 @@ export const products: Product[] = [
   },
   {
     slug: "restaurant-manager",
+    screenshot: { src: "/images/products/restaurant-manager-dashboard.jpg", alt: "Restaurant Manager back office dashboard showing receipts, payment modes and top-selling products", width: 1080, height: 775 },
     image: { src: "/images/products/restaurant-manager.jpg", alt: "Waiter carrying drinks on a tray in a restaurant", position: "50% 40%" },
     name: "Restaurant Manager",
     industry: "Food service",
@@ -226,3 +229,28 @@ export const retailOperations = {
   security: ["Authentication", "Role-based access", "Daily backups"],
   maintenance: ["Weekly checks", "Monthly audits", "Updates"],
 };
+
+/**
+ * Each product has its own website. For now it is served from this project at /sites/<slug>; once a sub-domain is live,
+ * set the matching env var (e.g. NEXT_PUBLIC_HOTEL_MANAGER_URL=https://hotel.example.com) and every button points there instead.
+ * `domain` is the name shown on the button ("Visit hotelmanager.com").
+ */
+export const siteDomains: Record<ProductSlug, string> = {
+  "hotel-manager": "hotelmanager.com",
+  "restaurant-manager": "restaurantmanager.com",
+  "shop-manager": "shopmanager.com",
+  "laundry-manager": "laundrymanager.com",
+};
+const siteUrls: Record<ProductSlug, string> = {
+  "hotel-manager": process.env.NEXT_PUBLIC_HOTEL_MANAGER_URL || "",
+  "restaurant-manager": process.env.NEXT_PUBLIC_RESTAURANT_MANAGER_URL || "",
+  "shop-manager": process.env.NEXT_PUBLIC_SHOP_MANAGER_URL || "",
+  "laundry-manager": process.env.NEXT_PUBLIC_LAUNDRY_MANAGER_URL || "",
+};
+
+/** Link + label for a product's main call-to-action: "Visit <product>.com", always opening in a new tab. */
+export function productCta(p: Product): { href: string; label: string; newTab: true } {
+  const url = siteUrls[p.slug].trim();
+  if (/^https?:\/\//i.test(url)) return { href: url, label: `Visit ${siteDomains[p.slug]}`, newTab: true };
+  return { href: `/sites/${p.slug}`, label: `Visit ${siteDomains[p.slug]}`, newTab: true };
+}

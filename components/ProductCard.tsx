@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Product } from "@/data/products";
+import { productCta, type Product } from "@/data/products";
 
 /**
  * Product card: photo band on top, industry label, headline, feature chips and two links
  * ("About …" to the product page, "Enquire now" to the contact form pre-filled for that product).
  */
 export default function ProductCard({ p }: { p: Product; detailed?: boolean }) {
+  const cta = productCta(p);
   return (
     <article className="group flex flex-col h-full bg-white text-ink border border-line overflow-hidden transition-[border-color,box-shadow] duration-500 ease-std hover:border-ink hover:shadow-[0_24px_48px_rgba(4,20,51,.10)]">
       <div className="h-[3px] bg-[#E27C22]" />
@@ -35,8 +36,8 @@ export default function ProductCard({ p }: { p: Product; detailed?: boolean }) {
           <Link href={`/products/${p.slug}`} className="group/l inline-flex items-center gap-2 border-b border-[#E27C22] pb-[2px]">
             About {p.name}<span className="text-[#E27C22] transition-transform duration-500 ease-std group-hover/l:translate-x-1">→</span>
           </Link>
-          <Link href={`/contact?interest=${p.slug}`} className="group/l inline-flex items-center gap-2 opacity-75 hover:opacity-100 transition-opacity">
-            Enquire now<span className="transition-transform duration-500 ease-std group-hover/l:translate-x-[2px] group-hover/l:-translate-y-[2px]">↗</span>
+          <Link href={cta.href} {...(cta.newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})} className="group/l inline-flex items-center gap-2 opacity-75 hover:opacity-100 transition-opacity">
+            {cta.label}<span className="transition-transform duration-500 ease-std group-hover/l:translate-x-[2px] group-hover/l:-translate-y-[2px]">↗</span>
           </Link>
         </div>
       </div>
