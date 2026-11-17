@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #FAFCFF;
+  --fg: #041433;
+  --pad: clamp(20px, 3.2vw, 48px);
+  --e-std: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html, body { margin: 0; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* Each section paints its own background: no page-wide colour fade while scrolling. */
+body {
+  background-color: #FAFCFF;
+  color: #041433;
+  font-family: var(--font-body), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+:where([data-theme="paper"]) { background-color: #FAFCFF; color: #041433; }
+:where([data-theme="ink"]) { background-color: #041433; color: #FAFCFF; }
+a { color: inherit; text-decoration: none; }
+
+/* Typography: headings are always Nunito ExtraBold (800); buttons and navigation are Plus Jakarta Sans SemiBold (600). */
+.font-display { font-weight: 800; }
+button, [type="submit"], nav a, header a.roll, a.roll { font-family: var(--font-body), sans-serif; font-weight: 600; }
+input, textarea, select { font-family: var(--font-body), sans-serif; }
+::selection { background: #E27C22; color: #FAFCFF; }
+input::placeholder { color: rgba(250,252,255, 0.4); }
+
+@layer components {
+  .px-page { padding-left: var(--pad); padding-right: var(--pad); }
+  /* centred content column: the page gutter stays, the content sits in a narrower measure like the reference */
+  .wrap { width: 100%; max-width: 1240px; margin-left: auto; margin-right: auto; }
+  .label { font-family: var(--font-mono), monospace; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .hair-t { border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
+  .hair-b { border-bottom: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
+  .hair-l { border-left: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
+  .hair-r { border-right: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
+  .roll-box { display: block; overflow: hidden; height: 20px; line-height: 20px; }
+  .roll-inner { display: flex; flex-direction: column; transition: transform 0.55s var(--e-std); }
+  .roll:hover .roll-inner { transform: translateY(-50%); }
+  .split-line { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+}
+
+@keyframes vc-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.vc-progress { animation: vc-progress 7s linear forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .vc-progress { animation: none; transform: scaleX(1); }
+}
+
+/* custom cursor replaces the native one on fine pointers */
+html.vc-cursor, html.vc-cursor a, html.vc-cursor button, html.vc-cursor [data-cursor-label] { cursor: none; }
+html.vc-cursor input, html.vc-cursor textarea { cursor: text; }
+
+/* typewriter caret */
+.vc-caret { display: inline-block; width: 0.055em; height: 0.78em; margin-left: 0.05em; background: #E27C22; vertical-align: -0.04em; animation: vc-blink 1s steps(1) infinite; }
+@keyframes vc-blink { 50% { opacity: 0; } }
+
+/* marquee rows + drifting wave lines */
+.vc-marquee-track { animation: vc-marquee var(--dur, 45s) linear infinite; animation-direction: var(--dir, normal); }
+.vc-marquee:hover .vc-marquee-track { animation-play-state: paused; }
+@keyframes vc-marquee { to { transform: translateX(-50%); } }
+.vc-waves { animation: vc-drift 40s linear infinite; }
+@keyframes vc-drift { to { transform: translateX(-400px); } }
+@media (prefers-reduced-motion: reduce) {
+  .vc-marquee-track, .vc-waves, .vc-caret { animation: none; }
+}
+
+@keyframes vc-fade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* Accent #E27C22 (the logo crown). Declared here as plain CSS so it applies instantly, with no Tailwind restart needed. */
+.text-crown { color: #E27C22; }
+.bg-crown { background-color: #E27C22; }
+.border-crown { border-color: #E27C22; }
+.focus\:border-crown:focus { border-color: #E27C22; }
+
+/* lively touches */
+@keyframes vc-nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(7px); } }
+.vc-nudge { animation: vc-nudge 1.8s ease-in-out infinite; }
+@keyframes vc-dash { to { background-position: 24px 0; } }
+.vc-dashline { background-image: linear-gradient(90deg, rgba(4,20,51,.28) 50%, transparent 0); background-size: 12px 2px; background-repeat: repeat-x; animation: vc-dash 1.2s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .vc-nudge, .vc-dashline { animation: none; } }
+
+@keyframes vc-wa-pulse { 0% { box-shadow: 0 10px 28px rgba(4,20,51,.28), 0 0 0 0 rgba(37,211,102,.45); } 70%, 100% { box-shadow: 0 10px 28px rgba(4,20,51,.28), 0 0 0 16px rgba(37,211,102,0); } }
+.vc-wa-pulse { animation: vc-wa-pulse 2.6s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) { .vc-wa-pulse { animation: none; } }

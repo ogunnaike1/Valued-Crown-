@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Valued Crown Technologies — Business software, built in-house</title>
+<link rel="icon" href="assets/logo-mark.png">
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&amp;f[]=switzer@300,400,500,600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<style>
+html,body{margin:0;background:#F2F1EC;color:#041433;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+a{color:inherit;text-decoration:none}
+a:hover{color:inherit}
+::selection{background:#F5A524;color:#041433}
+input::placeholder{color:rgba(242,241,236,.4)}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="background-color:#F2F1EC;color:#041433;font-family:'Switzer',sans-serif;transition:background-color .9s cubic-bezier(.22,1,.36,1),color .9s cubic-bezier(.22,1,.36,1);overflow-x:clip;position:relative">
+
+<!-- PRELOADER -->
+<div ref="{{ preRef }}" style="position:fixed;inset:0;z-index:400;pointer-events:none">
+  <div style="position:absolute;inset:0;display:flex">
+    <sc-for list="{{ preCols }}" as="c" hint-placeholder-count="5"><div data-precol style="flex:1;height:100%;background:#041433;margin-right:-1px;transition:transform 1.1s cubic-bezier(.76,0,.24,1)"></div></sc-for>
+  </div>
+  <div data-preui style="position:absolute;inset:0;color:#F2F1EC;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(20px,3.2vw,48px);transition:opacity .5s">
+    <div style="display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.6"><span>Valued Crown Technologies</span><span>Loading the suite</span></div>
+    <img src="assets/logo-lockup.png" alt="Valued Crown Technologies" style="width:min(320px,64vw);height:auto;align-self:center">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end">
+      <span ref="{{ preNumRef }}" style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(64px,10vw,160px);line-height:.8;letter-spacing:-.05em">000</span>
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;opacity:.6">( 2026 )</span>
+    </div>
+  </div>
+</div>
+
+<!-- CURSOR -->
+<div ref="{{ curRef }}" style="position:fixed;left:0;top:0;z-index:500;pointer-events:none;opacity:0;transition:opacity .3s">
+  <div ref="{{ curDotRef }}" style="width:10px;height:10px;border-radius:50%;background:#F5A524;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;transition:width .5s cubic-bezier(.22,1,.36,1),height .5s cubic-bezier(.22,1,.36,1);overflow:hidden">
+    <span ref="{{ curLabelRef }}" style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#041433;white-space:nowrap;opacity:0;transition:opacity .3s"></span>
+  </div>
+</div>
+
+<!-- SOLUTIONS FOLLOWER -->
+<div ref="{{ followRef }}" style="position:fixed;left:0;top:0;z-index:90;pointer-events:none;width:360px;height:250px;opacity:{{ followO }};transition:opacity .35s">
+  <div style="position:absolute;inset:0;transform:translate(-50%,-50%);overflow:hidden;background:#041433;box-shadow:0 30px 60px rgba(4,20,51,.25)">
+    <sc-for list="{{ solutions }}" as="s" hint-placeholder-count="8">
+      <div style="position:absolute;inset:0;padding:18px;display:flex;flex-direction:column;gap:12px;background:{{ s.bg }};color:{{ s.fg }};clip-path:{{ s.clip }};transition:clip-path .6s cubic-bezier(.22,1,.36,1)">
+        <div style="display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase"><span>{{ s.product }}</span><span>{{ s.n }}</span></div>
+        <div style="flex:1;background:#fff;color:#041433;padding:12px;display:flex;flex-direction:column;gap:8px;font-size:11px">
+          <div style="display:flex;justify-content:space-between;font-weight:600"><span>{{ s.screen }}</span><span style="font-family:'Geist Mono',monospace;font-weight:400">{{ s.figure }}</span></div>
+          <div style="height:1px;background:#E3E4E8"></div>
+          <div style="flex:1;display:flex;align-items:flex-end;gap:5px">
+            <sc-for list="{{ s.bars }}" as="b" hint-placeholder-count="10"><div style="flex:1;height:{{ b.h }};background:{{ b.c }}"></div></sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header ref="{{ headRef }}" onMouseLeave="{{ closeMega }}" style="position:fixed;top:0;left:0;right:0;z-index:200;color:inherit;transition:transform .8s cubic-bezier(.22,1,.36,1),background-color .9s cubic-bezier(.22,1,.36,1)">
+  <div style="height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 clamp(20px,3.2vw,48px);position:relative">
+    <a href="#top" aria-label="Valued Crown Technologies — home" style="display:flex;align-items:center;background:#041433;height:44px;padding:0 16px;box-shadow:0 0 0 1px color-mix(in srgb,currentColor 14%,transparent)"><img src="assets/logo-lockup.png" alt="Valued Crown Technologies" style="height:26px;width:auto;display:block"></a>
+    <sc-if value="{{ isDesk }}" hint-placeholder-val="{{ true }}">
+      <nav style="display:flex;gap:34px;font-size:14px;font-weight:500">
+        <sc-for list="{{ navLinks }}" as="l" hint-placeholder-count="6">
+          <a href="{{ l.href }}" data-roll onMouseEnter="{{ l.enter }}" style="display:flex;align-items:center;gap:6px">
+            <span style="display:block;overflow:hidden;height:20px;line-height:20px"><span data-roll-inner style="display:flex;flex-direction:column;transition:transform .55s cubic-bezier(.22,1,.36,1)"><span>{{ l.label }}</span><span>{{ l.label }}</span></span></span>
+            <span style="width:5px;height:5px;background:#F5A524;opacity:{{ l.dot }};transition:opacity .3s"></span>
+          </a>
+        </sc-for>
+      </nav>
+    </sc-if>
+    <div style="display:flex;gap:8px;align-items:center">
+      <a href="#contact" data-roll data-magnetic style="height:44px;padding:0 18px;background:#041433;color:#F2F1EC;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:500;box-shadow:0 0 0 1px color-mix(in srgb,currentColor 14%,transparent)">
+        <span style="width:8px;height:8px;background:#F5A524"></span>
+        <span style="display:block;overflow:hidden;height:20px;line-height:20px"><span data-roll-inner style="display:flex;flex-direction:column;transition:transform .55s cubic-bezier(.22,1,.36,1)"><span>Request a demo</span><span>Request a demo</span></span></span>
+      </a>
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ toggleMenu }}" style="height:44px;padding:0 16px;border:1px solid currentColor;background:transparent;color:inherit;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer">Menu</button>
+      </sc-if>
+    </div>
+    <div style="position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:{{ headLine }}"></div>
+  </div>
+  <!-- mega menu -->
+  <div style="position:absolute;top:72px;left:0;right:0;background:#FFFFFF;color:#041433;clip-path:{{ megaClip }};pointer-events:{{ megaPE }};transition:clip-path .7s cubic-bezier(.76,0,.24,1);box-shadow:0 30px 60px rgba(4,20,51,.12)">
+    <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr))">
+      <sc-for list="{{ products }}" as="p" hint-placeholder-count="5">
+        <a href="#products" style="padding:28px clamp(16px,2vw,28px) 32px;border-right:1px solid #E3E4E8;display:flex;flex-direction:column;gap:10px;transition:background .3s" style-hover="background:#F2F1EC">
+          <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:#5B6B8A">{{ p.n }} — {{ p.cat }}</span>
+          <span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:34px;letter-spacing:-.04em;line-height:1">{{ p.name }}</span>
+          <span style="font-size:14px;line-height:1.45;color:#3A4660">{{ p.tagline }}</span>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div style="position:fixed;inset:0;z-index:300;background:#041433;color:#F2F1EC;clip-path:{{ menuClip }};transition:clip-path .9s cubic-bezier(.76,0,.24,1);pointer-events:{{ menuPE }};display:flex;flex-direction:column;padding:14px clamp(20px,5vw,40px) 28px">
+  <div style="display:flex;justify-content:space-between;align-items:center;height:44px">
+    <img src="assets/logo-lockup.png" alt="Valued Crown Technologies" style="height:26px;width:auto">
+    <button onClick="{{ toggleMenu }}" style="height:44px;padding:0 16px;border:1px solid rgba(242,241,236,.4);background:transparent;color:#F2F1EC;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;cursor:pointer">CLOSE</button>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+    <sc-for list="{{ menuLinks }}" as="m" hint-placeholder-count="6">
+      <a href="{{ m.href }}" onClick="{{ toggleMenu }}" style="display:flex;align-items:baseline;justify-content:space-between;border-top:1px solid rgba(242,241,236,.14);padding:10px 0;overflow:hidden">
+        <span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(40px,12vw,76px);letter-spacing:-.05em;line-height:1;display:block;transform:{{ m.t }};transition:transform .9s cubic-bezier(.22,1,.36,1);transition-delay:{{ m.d }}">{{ m.label }}</span>
+        <span style="font-family:'Geist Mono',monospace;font-size:11px;color:#F5A524">{{ m.n }}</span>
+      </a>
+    </sc-for>
+  </div>
+  <a href="mailto:hello@valuedcrown.tech" style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;opacity:.6">HELLO@VALUEDCROWN.TECH — PLACEHOLDER</a>
+</div>
+
+<!-- 01 HERO -->
+<section id="top" data-theme="paper" data-screen-label="01 Hero" style="padding:clamp(108px,12vw,150px) clamp(20px,3.2vw,48px) 0;position:relative">
+  <div data-reveal style="display:flex;flex-wrap:wrap;gap:12px 40px;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding-bottom:18px;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)">
+    <span>(01) Valued Crown Technologies</span>
+    <span style="opacity:.62">Business software — designed, built &amp; supported in-house</span>
+    <span style="opacity:.62">Scroll ↓</span>
+  </div>
+  <div ref="{{ heroHeadRef }}" style="will-change:transform">
+    <h1 data-split style="margin:clamp(28px,4vw,56px) 0 0;font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(58px,12.4vw,224px);line-height:.84;letter-spacing:-.062em">
+      <span style="display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em"><span data-line style="display:block">Software</span></span>
+      <span style="display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em"><span data-line style="display:block;padding-left:max(0px,calc(25vw - 60px))">for the way</span></span>
+      <span style="display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em"><span data-line style="display:block">you trade<span data-keep style="display:inline-block;width:.17em;height:.17em;background:#F5A524;margin-left:.04em"></span></span></span>
+    </h1>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:36px clamp(24px,4vw,64px);margin-top:clamp(36px,5vw,72px);padding-bottom:clamp(40px,5vw,64px);align-items:flex-start">
+    <p data-reveal data-delay="200" style="flex:1 1 300px;max-width:430px;margin:0;font-size:clamp(17px,1.3vw,20px);line-height:1.5;text-wrap:pretty">Accounting, inventory, point-of-sale, payroll and hospital software — written by one team, installed on your floor, and supported by the people who built it.</p>
+    <div data-reveal data-delay="300" style="flex:1 1 300px;display:flex;flex-wrap:wrap;gap:8px">
+      <a href="#products" data-roll data-magnetic style="height:56px;padding:0 24px;background:#041433;color:#F2F1EC;display:flex;align-items:center;gap:14px;font-size:15px;font-weight:500;box-shadow:0 0 0 1px color-mix(in srgb,currentColor 14%,transparent)">
+        <span style="display:block;overflow:hidden;height:20px;line-height:20px"><span data-roll-inner style="display:flex;flex-direction:column;transition:transform .55s cubic-bezier(.22,1,.36,1)"><span>Explore our products</span><span>Explore our products</span></span></span><span style="color:#F5A524">→</span>
+      </a>
+      <a href="#contact" data-roll data-magnetic style="height:56px;padding:0 24px;border:1px solid currentColor;display:flex;align-items:center;font-size:15px;font-weight:500;box-sizing:border-box">
+        <span style="display:block;overflow:hidden;height:20px;line-height:20px"><span data-roll-inner style="display:flex;flex-direction:column;transition:transform .55s cubic-bezier(.22,1,.36,1)"><span>Request a demo</span><span>Request a demo</span></span></span>
+      </a>
+    </div>
+    <div data-reveal data-delay="400" style="flex:1 1 260px;max-width:360px;display:flex;flex-direction:column;font-size:14px">
+      <sc-for list="{{ products }}" as="p" hint-placeholder-count="5">
+        <a href="#products" style="display:grid;grid-template-columns:36px 1fr auto;gap:8px;padding:9px 0;border-top:1px solid color-mix(in srgb,currentColor 18%,transparent);transition:padding .4s cubic-bezier(.22,1,.36,1)" style-hover="padding-left:10px">
+          <span style="font-family:'Geist Mono',monospace;font-size:11px;opacity:.55">{{ p.n }}</span><span style="font-weight:600">{{ p.name }}</span><span style="opacity:.62">{{ p.cat }}</span>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+  <!-- hero plate -->
+  <div ref="{{ plateRef }}" data-cursor-label="Crown Suite" style="position:relative;margin:0 calc(-1 * clamp(20px,3.2vw,48px));clip-path:inset(0 clamp(20px,3.2vw,48px) 0 clamp(20px,3.2vw,48px));will-change:clip-path">
+    <div style="position:relative;background:#041433;height:{{ plateH }};overflow:hidden">
+      <div ref="{{ plateInRef }}" style="position:absolute;inset:0;will-change:transform">
+        <div style="position:absolute;left:clamp(20px,6vw,100px);top:clamp(22px,4vw,56px);font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:#F2F1EC;opacity:.55;text-transform:uppercase">Fig. 01 — Crown Suite overview · UI mockup, replace with screenshot</div>
+        <div style="position:absolute;left:{{ winL }};top:{{ winT }};width:{{ winW }};background:#fff;color:#041433;box-shadow:0 40px 80px rgba(0,0,0,.35);font-size:12px">
+          <div style="height:34px;display:flex;align-items:center;gap:6px;padding:0 12px;border-bottom:1px solid #E3E4E8"><span style="width:8px;height:8px;background:#D6D9E0"></span><span style="width:8px;height:8px;background:#D6D9E0"></span><span style="width:8px;height:8px;background:#D6D9E0"></span><span style="margin-left:14px;font-family:'Geist Mono',monospace;font-size:10px;color:#5B6B8A">suite.valuedcrown.app / overview</span></div>
+          <div style="display:grid;grid-template-columns:clamp(60px,13vw,200px) minmax(0,1fr)">
+            <div style="background:#F2F1EC;padding:16px 10px;display:flex;flex-direction:column;gap:2px;border-right:1px solid #E3E4E8;white-space:nowrap;overflow:hidden">
+              <div style="display:flex;align-items:center;gap:8px;padding:0 8px 16px;font-weight:600"><span style="width:14px;height:14px;background:#041433"></span>Crown Suite</div>
+              <span style="padding:8px;background:#041433;color:#F2F1EC;display:flex;gap:8px;align-items:center"><span style="width:6px;height:6px;background:#F5A524"></span>Overview</span>
+              <span style="padding:8px;color:#5B6B8A">Sales — Till</span><span style="padding:8px;color:#5B6B8A">Inventory — Shelf</span><span style="padding:8px;color:#5B6B8A">Finance — Tally</span><span style="padding:8px;color:#5B6B8A">People — Roster</span><span style="padding:8px;color:#5B6B8A">Clinical — Ward</span>
+            </div>
+            <div style="padding:clamp(14px,1.8vw,24px);display:flex;flex-direction:column;gap:18px;min-width:0">
+              <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap"><div><div style="color:#5B6B8A;font-size:11px">Tuesday · all branches</div><div style="font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em">Business overview</div></div><div style="display:flex;border:1px solid #E3E4E8"><span style="padding:6px 10px;background:#041433;color:#fff">Today</span><span style="padding:6px 10px">Week</span><span style="padding:6px 10px">Month</span></div></div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));border-top:1px solid #E3E4E8;border-bottom:1px solid #E3E4E8">
+                <div style="padding:12px 12px 12px 0;display:flex;flex-direction:column;gap:4px"><span style="color:#5B6B8A;font-size:11px">Sales today</span><span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:22px">1,284,500</span><span style="font-size:10px;color:#3A4660">+8.2% vs last Tue</span></div>
+                <div style="padding:12px;border-left:1px solid #E3E4E8;display:flex;flex-direction:column;gap:4px"><span style="color:#5B6B8A;font-size:11px">Open invoices</span><span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:22px">37</span><span style="font-size:10px;color:#3A4660">6 due this week</span></div>
+                <div style="padding:12px;border-left:1px solid #E3E4E8;display:flex;flex-direction:column;gap:4px"><span style="color:#5B6B8A;font-size:11px">Low stock</span><span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:22px">12 SKUs</span><span style="font-size:10px;color:#B06F0A">Reorder suggested</span></div>
+                <div style="padding:12px;border-left:1px solid #E3E4E8;display:flex;flex-direction:column;gap:4px"><span style="color:#5B6B8A;font-size:11px">Staff on shift</span><span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:22px">48</span><span style="font-size:10px;color:#3A4660">across 4 branches</span></div>
+              </div>
+              <div style="display:flex;gap:18px;flex-wrap:wrap">
+                <div style="flex:1.6 1 240px;display:flex;flex-direction:column;gap:10px;min-width:0"><div style="display:flex;justify-content:space-between;font-size:11px"><span style="font-weight:600">Sales by hour</span><span style="color:#5B6B8A">08:00 — 21:00</span></div><div style="height:130px;display:flex;align-items:flex-end;gap:5px;border-bottom:1px solid #041433"><sc-for list="{{ heroBars }}" as="b" hint-placeholder-count="14"><div style="flex:1;height:{{ b.h }};background:{{ b.c }}"></div></sc-for></div></div>
+                <div style="flex:1 1 170px;display:flex;flex-direction:column;font-size:11px"><span style="font-weight:600;padding-bottom:8px">Branches</span><div style="display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid #E3E4E8"><span>Branch 01</span><span style="font-family:'Geist Mono',monospace">482,100</span></div><div style="display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid #E3E4E8"><span>Branch 02</span><span style="font-family:'Geist Mono',monospace">361,900</span></div><div style="display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid #E3E4E8"><span>Branch 03</span><span style="font-family:'Geist Mono',monospace">240,500</span></div><div style="display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid #E3E4E8"><span>Branch 04</span><span style="font-family:'Geist Mono',monospace">198,250</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <sc-if value="{{ isDesk }}" hint-placeholder-val="{{ true }}">
+          <div ref="{{ phoneRef }}" style="position:absolute;right:6vw;top:16%;width:clamp(180px,15vw,250px);aspect-ratio:9/18.5;background:#fff;color:#041433;border-radius:26px;border:6px solid #0B1A3A;box-shadow:0 40px 80px rgba(0,0,0,.4);padding:22px 14px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;font-size:11px;will-change:transform">
+            <div style="display:flex;justify-content:space-between;font-weight:600"><span>Till</span><span style="font-family:'Geist Mono',monospace;font-weight:400;color:#5B6B8A">REG 02</span></div>
+            <div style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:28px;letter-spacing:-.04em">12,450.00</div>
+            <div style="display:flex;justify-content:space-between;border-top:1px solid #E3E4E8;padding-top:8px"><span>2 × Water</span><span>700</span></div>
+            <div style="display:flex;justify-content:space-between"><span>3 × Yoghurt</span><span>4,350</span></div>
+            <div style="display:flex;justify-content:space-between"><span>1 × Rice 5kg</span><span>6,200</span></div>
+            <div style="display:flex;justify-content:space-between"><span>1 × Bread</span><span>1,200</span></div>
+            <div style="margin-top:auto;display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid #E3E4E8;text-align:center"><span style="padding:7px 0">Card</span><span style="padding:7px 0;background:#041433;color:#fff">Transfer</span><span style="padding:7px 0">Cash</span></div>
+            <div style="height:40px;background:#F5A524;display:flex;align-items:center;justify-content:center;font-weight:600">Charge</div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 MANIFESTO -->
+<section id="about" data-theme="ink" data-screen-label="02 Position" style="padding:clamp(110px,14vw,220px) clamp(20px,3.2vw,48px) clamp(90px,10vw,160px)">
+  <div style="display:flex;flex-wrap:wrap;gap:32px clamp(24px,4vw,64px)">
+    <span data-reveal style="flex:0 0 220px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding-top:14px">(02) Our position</span>
+    <p ref="{{ maniRef }}" style="flex:1 1 600px;margin:0;font-family:'Cabinet Grotesk',sans-serif;font-weight:500;font-size:clamp(32px,4.5vw,76px);line-height:1.02;letter-spacing:-.035em;text-wrap:pretty">We don't resell software we bought. We write it, install it on your floor, sit with your cashiers on day one — and pick up the phone when something breaks, because we're the ones who built it.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));margin-top:clamp(64px,8vw,120px);border-top:1px solid color-mix(in srgb,currentColor 18%,transparent)">
+    <div data-reveal style="padding:24px 24px 0 0;display:flex;flex-direction:column;gap:10px"><span style="font-family:'Geist Mono',monospace;font-size:11px;color:#F5A524">A</span><span style="font-size:20px;font-weight:500">Designed in-house</span><span style="font-size:15px;line-height:1.55;opacity:.64">Every screen, every report, every receipt layout — drawn and coded by our own team.</span></div>
+    <div data-reveal data-delay="100" style="padding:24px 24px 0 0;display:flex;flex-direction:column;gap:10px"><span style="font-family:'Geist Mono',monospace;font-size:11px;color:#F5A524">B</span><span style="font-size:20px;font-weight:500">Installed on-site</span><span style="font-size:15px;line-height:1.55;opacity:.64">We configure, migrate your data and train each role in person before go-live.</span></div>
+    <div data-reveal data-delay="200" style="padding:24px 24px 0 0;display:flex;flex-direction:column;gap:10px"><span style="font-family:'Geist Mono',monospace;font-size:11px;color:#F5A524">C</span><span style="font-size:20px;font-weight:500">Supported by the authors</span><span style="font-size:15px;line-height:1.55;opacity:.64">A named engineer who knows your setup, not a ticket number in a queue.</span></div>
+  </div>
+</section>
+
+<!-- 03 PRODUCTS (horizontal) -->
+<section id="products" ref="{{ hWrapRef }}" data-theme="ink" data-screen-label="03 Products" style="position:relative">
+  <div style="position:{{ hSticky }};top:0;height:{{ hInnerH }};overflow:hidden;display:flex;align-items:center">
+    <div ref="{{ hTrackRef }}" style="display:flex;flex-direction:{{ hDir }};gap:{{ hGap }};padding:{{ hPad }};will-change:transform;width:{{ hTrackW }};box-sizing:border-box">
+      <div style="flex:none;width:{{ hIntroW }};display:flex;flex-direction:column;justify-content:space-between;gap:40px;padding-right:2vw">
+        <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase">(03) The product line</span>
+        <h2 data-split style="margin:0;font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(56px,7.6vw,140px);line-height:.86;letter-spacing:-.06em">
+          <span style="display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em"><span data-line style="display:block">Five</span></span>
+          <span style="display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em"><span data-line style="display:block">products.</span></span>
+          <span style="display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em"><span data-line style="display:block;color:#F5A524">One system.</span></span>
+        </h2>
+        <p style="margin:0;max-width:340px;font-size:16px;line-height:1.55;opacity:.64">Each stands on its own. Together they share one login and one database — a sale at the till updates stock, the books and the dashboard in the same second.</p>
+      </div>
+      <sc-for list="{{ products }}" as="p" hint-placeholder-count="5">
+        <article data-cursor-label="View" style="flex:none;width:{{ hPanelW }};height:{{ hPanelH }};background:{{ p.bg }};color:{{ p.fg }};box-shadow:inset 0 0 0 1px {{ p.edge }};display:grid;grid-template-columns:{{ hPanelCols }};gap:clamp(24px,3vw,48px);padding:clamp(22px,2.6vw,40px);box-sizing:border-box;overflow:hidden">
+          <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+            <div style="display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase"><span>{{ p.n }} / 05</span><span style="opacity:.62">{{ p.cat }}</span></div>
+            <div style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(72px,9vw,168px);line-height:.82;letter-spacing:-.065em;margin-top:auto">{{ p.name }}</div>
+            <div style="font-size:clamp(20px,1.7vw,26px);line-height:1.2;font-weight:500;letter-spacing:-.015em;max-width:460px;text-wrap:pretty">{{ p.tagline }}</div>
+            <div style="display:flex;flex-direction:column">
+              <sc-for list="{{ p.feats }}" as="f" hint-placeholder-count="4"><div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid {{ p.line }};font-size:14px"><span>{{ f }}</span><span style="font-family:'Geist Mono',monospace;font-size:11px;opacity:.5">+</span></div></sc-for>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;align-items:center">
+              <span style="font-size:13px;opacity:.68">{{ p.inds }}</span>
+              <div style="display:flex;gap:6px"><a href="#products" style="height:44px;padding:0 16px;background:{{ p.fg }};color:{{ p.bg }};display:flex;align-items:center;font-size:14px;font-weight:500">Learn more →</a><a href="#contact" style="height:44px;padding:0 16px;border:1px solid {{ p.fg }};display:flex;align-items:center;font-size:14px;font-weight:500;box-sizing:border-box">Request demo</a></div>
+            </div>
+          </div>
+          <div style="min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;position:relative">
+            <div data-hpar style="width:100%;max-width:560px;background:#fff;color:#041433;font-size:12px;box-shadow:0 30px 60px rgba(4,20,51,.18);will-change:transform">
+              <div style="height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid #E3E4E8;font-family:'Geist Mono',monospace;font-size:10px;color:#5B6B8A"><span>{{ p.lower }}.valuedcrown.app</span><span>UI MOCKUP</span></div>
+              <sc-if value="{{ p.isTally }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:20px;display:flex;flex-direction:column;gap:10px">
+                  <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:20px">Invoice INV-2041</span><span style="padding:3px 8px;background:#041433;color:#fff;font-family:'Geist Mono',monospace;font-size:10px">PAID</span></div>
+                  <div style="display:flex;justify-content:space-between;color:#5B6B8A"><span>Billed to [Customer]</span><span>Due 30 Mar</span></div>
+                  <div style="display:grid;grid-template-columns:1fr auto auto;gap:8px 18px;border-top:1px solid #041433;padding-top:10px"><span style="color:#5B6B8A">Item</span><span style="color:#5B6B8A">Qty</span><span style="color:#5B6B8A;text-align:right">Amount</span><span>Annual licence — Shelf</span><span>1</span><span style="font-family:'Geist Mono',monospace;text-align:right">420,000.00</span><span>Onboarding days</span><span>2</span><span style="font-family:'Geist Mono',monospace;text-align:right">90,000.00</span><span>VAT 7.5%</span><span></span><span style="font-family:'Geist Mono',monospace;text-align:right">38,250.00</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #E3E4E8;padding-top:10px"><span style="font-weight:600">Total</span><span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:30px;letter-spacing:-.03em">548,250.00</span></div>
+                  <div style="display:flex;gap:8px;align-items:center;background:#F2F1EC;padding:10px"><span style="width:8px;height:8px;background:#F5A524"></span>Matched to bank feed — 14 Mar, 09:12</div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ p.isShelf }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:20px;display:flex;flex-direction:column;gap:2px">
+                  <div style="display:flex;justify-content:space-between;align-items:baseline;padding-bottom:12px"><span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:20px">Stock — Branch 01</span><span style="color:#5B6B8A">1,284 SKUs</span></div>
+                  <div style="display:grid;grid-template-columns:minmax(0,1fr) 60px 90px;gap:12px;padding:8px 0;border-top:1px solid #041433;color:#5B6B8A;font-size:11px"><span>Item</span><span>On hand</span><span>Level</span></div>
+                  <sc-for list="{{ stock }}" as="s" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:minmax(0,1fr) 60px 90px;gap:12px;align-items:center;padding:9px 0;border-top:1px solid #E3E4E8"><span>{{ s.name }}</span><span style="font-family:'Geist Mono',monospace;color:{{ s.tc }}">{{ s.qty }}</span><div style="height:6px;background:#E3E4E8"><div style="height:100%;width:{{ s.w }};background:{{ s.c }}"></div></div></div></sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ p.isTill }}" hint-placeholder-val="{{ false }}">
+                <div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)">
+                  <div style="padding:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#F2F1EC"><sc-for list="{{ tiles }}" as="t" hint-placeholder-count="9"><div style="background:#fff;padding:10px 8px;display:flex;flex-direction:column;gap:6px;border:1px solid #E3E4E8"><span style="width:12px;height:12px;background:{{ t.c }}"></span><span style="font-weight:500">{{ t.name }}</span><span style="font-family:'Geist Mono',monospace;font-size:10px;color:#5B6B8A">{{ t.p }}</span></div></sc-for></div>
+                  <div style="padding:14px;display:flex;flex-direction:column;gap:8px"><span style="font-weight:600">Current sale</span><div style="display:flex;justify-content:space-between"><span>2 × Water</span><span>700</span></div><div style="display:flex;justify-content:space-between"><span>3 × Yoghurt</span><span>4,350</span></div><div style="display:flex;justify-content:space-between"><span>1 × Rice 5kg</span><span>6,200</span></div><div style="margin-top:auto;border-top:1px solid #041433;padding-top:8px;font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:24px">12,450.00</div><div style="height:38px;background:#F5A524;display:flex;align-items:center;justify-content:center;font-weight:600">Charge</div><div style="font-family:'Geist Mono',monospace;font-size:10px;color:#5B6B8A">OFFLINE-READY · 14 QUEUED</div></div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ p.isRoster }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:20px;display:flex;flex-direction:column;gap:10px">
+                  <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:20px">Week 12 — Front of house</span><span style="color:#5B6B8A">Payroll locks Fri</span></div>
+                  <div style="display:grid;grid-template-columns:70px repeat(7,1fr);gap:3px;font-family:'Geist Mono',monospace;font-size:10px;color:#5B6B8A"><span></span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+                  <sc-for list="{{ shifts }}" as="r" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:70px repeat(7,1fr);gap:3px;align-items:center"><span style="font-size:11px">{{ r.name }}</span><sc-for list="{{ r.days }}" as="d" hint-placeholder-count="7"><span style="height:20px;background:{{ d }}"></span></sc-for></div></sc-for>
+                  <div style="display:flex;gap:16px;font-size:11px;color:#5B6B8A;border-top:1px solid #E3E4E8;padding-top:10px"><span style="display:flex;gap:6px;align-items:center"><span style="width:8px;height:8px;background:#041433"></span>Day</span><span style="display:flex;gap:6px;align-items:center"><span style="width:8px;height:8px;background:#8A93A6"></span>Night</span><span style="display:flex;gap:6px;align-items:center"><span style="width:8px;height:8px;background:#F5A524"></span>Leave</span></div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ p.isWard }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:20px;display:flex;flex-direction:column;gap:12px">
+                  <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:20px">Patient #A-0192</span><span style="padding:3px 8px;background:#041433;color:#fff;font-family:'Geist Mono',monospace;font-size:10px">WARD 3 · BED 12</span></div>
+                  <div style="display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #041433;border-bottom:1px solid #E3E4E8"><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><span style="color:#5B6B8A;font-size:10px">BP</span><span style="font-weight:600">118/76</span></div><div style="padding:10px;border-left:1px solid #E3E4E8;display:flex;flex-direction:column;gap:2px"><span style="color:#5B6B8A;font-size:10px">HR</span><span style="font-weight:600">72</span></div><div style="padding:10px;border-left:1px solid #E3E4E8;display:flex;flex-direction:column;gap:2px"><span style="color:#5B6B8A;font-size:10px">TEMP</span><span style="font-weight:600">36.8°</span></div><div style="padding:10px;border-left:1px solid #E3E4E8;display:flex;flex-direction:column;gap:2px"><span style="color:#5B6B8A;font-size:10px">SPO2</span><span style="font-weight:600">98%</span></div></div>
+                  <div style="display:flex;flex-direction:column"><div style="display:grid;grid-template-columns:50px 1fr auto;gap:10px;padding:7px 0"><span style="font-family:'Geist Mono',monospace;color:#5B6B8A">09:14</span><span>Rx dispensed — pharmacy</span><span style="color:#5B6B8A">Billed HMO</span></div><div style="display:grid;grid-template-columns:50px 1fr auto;gap:10px;padding:7px 0;border-top:1px solid #E3E4E8"><span style="font-family:'Geist Mono',monospace;color:#5B6B8A">08:40</span><span>Lab result — FBC</span><span style="color:#B06F0A">Review</span></div><div style="display:grid;grid-template-columns:50px 1fr auto;gap:10px;padding:7px 0;border-top:1px solid #E3E4E8"><span style="font-family:'Geist Mono',monospace;color:#5B6B8A">07:55</span><span>Ward round — Dr. [Name]</span><span style="color:#5B6B8A">Notes</span></div></div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </div>
+  <div ref="{{ hBarRef }}" style="position:absolute;left:0;bottom:0;height:3px;width:100%;background:#F5A524;transform:scaleX(0);transform-origin:left;display:{{ hBarD }}"></div>
+</section>
+
+<!-- 04 SOLUTIONS -->
+<section id="solutions" data-theme="paper" data-screen-label="04 Solutions" style="padding:clamp(100px,12vw,180px) clamp(20px,3.2vw,48px)">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:28px;margin-bottom:clamp(48px,6vw,88px)">
+    <div style="display:flex;flex-direction:column;gap:28px">
+      <span data-reveal style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase">(04) What the software does</span>
+      <h2 data-split style="margin:0;font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(48px,7vw,128px);line-height:.86;letter-spacing:-.06em">
+        <span style="display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em"><span data-line style="display:block">Eight problems</span></span>
+        <span style="display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em"><span data-line style="display:block">we solve daily.</span></span>
+      </h2>
+    </div>
+    <p data-reveal style="margin:0;max-width:360px;font-size:16px;line-height:1.55;opacity:.68">Hover a row to see the screen that handles it. Each solution maps to a product you can trial with your own data.</p>
+  </div>
+  <div onMouseLeave="{{ solLeave }}" style="border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)">
+    <sc-for list="{{ solutions }}" as="s" hint-placeholder-count="8">
+      <a href="#products" data-reveal onMouseEnter="{{ s.enter }}" style="display:grid;grid-template-columns:{{ solCols }};gap:10px 24px;align-items:baseline;padding:clamp(18px,2vw,28px) 0;border-top:1px solid color-mix(in srgb,currentColor 18%,transparent);opacity:{{ s.o }};transition:opacity .4s">
+        <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em">{{ s.n }}</span>
+        <span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:clamp(28px,3.6vw,62px);letter-spacing:-.045em;line-height:1;transform:{{ s.shift }};transition:transform .6s cubic-bezier(.22,1,.36,1);display:flex;align-items:center;gap:.25em"><span style="display:inline-block;width:{{ s.sq }};height:.32em;background:#F5A524;transition:width .5s cubic-bezier(.22,1,.36,1)"></span>{{ s.title }}</span>
+        <span style="font-size:15px;line-height:1.5;opacity:.68;max-width:380px;grid-column:{{ solSpan }}">{{ s.body }}</span>
+        <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;text-align:{{ solTagAlign }};grid-column:{{ solSpan }}">{{ s.product }} ↗</span>
+      </a>
+    </sc-for>
+  </div>
+</section>
+
+<!-- 05 INDUSTRIES -->
+<section id="industries" data-theme="accent" data-screen-label="05 Industries" style="padding:clamp(100px,12vw,180px) clamp(20px,3.2vw,48px)">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding-bottom:18px;border-bottom:1px solid currentColor;margin-bottom:clamp(36px,4vw,56px)">
+    <span>(05) Industries we serve</span><span>Select an industry</span>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:clamp(32px,5vw,80px)">
+    <div style="flex:1 1 420px;display:flex;flex-direction:column">
+      <sc-for list="{{ industries }}" as="i" hint-placeholder-count="8">
+        <button onClick="{{ i.pick }}" onMouseEnter="{{ i.pick }}" style="all:unset;cursor:pointer;display:flex;align-items:baseline;gap:16px;padding:6px 0;opacity:{{ i.o }};transition:opacity .4s">
+          <span style="font-family:'Geist Mono',monospace;font-size:11px;width:24px">{{ i.n }}</span>
+          <span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(34px,4.4vw,80px);letter-spacing:-.055em;line-height:.98;transform:{{ i.shift }};transition:transform .6s cubic-bezier(.22,1,.36,1)">{{ i.name }}</span>
+        </button>
+      </sc-for>
+    </div>
+    <div style="flex:1 1 440px;min-width:0;display:flex;flex-direction:column;gap:24px">
+      <div style="position:relative;aspect-ratio:4/3;background:#041433">
+        <sc-for list="{{ industries }}" as="i" hint-placeholder-count="8">
+          <div style="position:absolute;inset:0;background:{{ i.plate }};color:#F2F1EC;clip-path:{{ i.clip }};transition:clip-path 1s cubic-bezier(.76,0,.24,1);display:flex;flex-direction:column;justify-content:space-between;padding:20px">
+            <div style="display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase"><span>{{ i.n }} — {{ i.name }}</span><span style="opacity:.55">Image placeholder</span></div>
+            <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.55">[ Photo — {{ i.photo }} ]</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:grid">
+        <sc-for list="{{ industries }}" as="i" hint-placeholder-count="8">
+          <div style="grid-area:1/1;display:flex;flex-direction:column;gap:18px;opacity:{{ i.vis }};transform:{{ i.ty }};transition:opacity .5s,transform .7s cubic-bezier(.22,1,.36,1);pointer-events:{{ i.pe }}">
+            <p style="margin:0;font-size:clamp(19px,1.5vw,23px);line-height:1.35;font-weight:500;letter-spacing:-.01em;max-width:520px;text-wrap:pretty">{{ i.text }}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center"><span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;margin-right:6px">PRODUCTS USED</span><sc-for list="{{ i.prods }}" as="pp" hint-placeholder-count="3"><span style="padding:7px 12px;background:#041433;color:#F2F1EC;font-size:13px;font-weight:500">{{ pp }}</span></sc-for></div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 NUMBERS + CLIENTS -->
+<section data-theme="paper" data-screen-label="06 Numbers" style="padding:clamp(100px,12vw,180px) clamp(20px,3.2vw,48px) clamp(80px,10vw,140px)">
+  <div data-reveal style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:24px"><span>(06) By the numbers</span><span style="opacity:.62">Placeholder figures — replace with verified data</span></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));border-top:1px solid currentColor">
+    <sc-for list="{{ stats }}" as="s" hint-placeholder-count="5">
+      <div data-reveal style="padding:22px 16px 34px 0;display:flex;flex-direction:column;gap:18px;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)">
+        <span style="font-family:'Geist Mono',monospace;font-size:11px;opacity:.55">{{ s.n }}</span>
+        <span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(76px,8.4vw,150px);line-height:.8;letter-spacing:-.065em"><span data-count="{{ s.v }}" data-suffix="{{ s.suf }}">{{ s.v }}{{ s.suf }}</span></span>
+        <span style="font-size:15px;line-height:1.4;max-width:210px">{{ s.label }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <div style="margin-top:clamp(80px,10vw,150px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:24px"><span data-reveal>Running daily at</span><span data-reveal style="opacity:.62">Client logos — placeholder</span></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(50%,220px),1fr));border-left:1px solid color-mix(in srgb,currentColor 18%,transparent);border-top:1px solid color-mix(in srgb,currentColor 18%,transparent)">
+    <sc-for list="{{ clients }}" as="c" hint-placeholder-count="8">
+      <div data-reveal style="height:clamp(96px,9vw,140px);border-right:1px solid color-mix(in srgb,currentColor 18%,transparent);border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent);display:flex;align-items:center;justify-content:center;font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em;opacity:.55;transition:background .4s,color .4s,opacity .4s" style-hover="background:#041433;color:#F2F1EC;opacity:1">Client {{ c }}</div>
+    </sc-for>
+  </div>
+</section>
+
+<!-- 07 PROCESS (stacking) -->
+<section data-theme="paper" data-screen-label="07 Process" style="position:relative">
+  <div style="padding:0 clamp(20px,3.2vw,48px) clamp(40px,5vw,60px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:28px">
+    <h2 data-split style="margin:0;font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(48px,7vw,128px);line-height:.86;letter-spacing:-.06em">
+      <span style="display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em"><span data-line style="display:block">From first visit</span></span>
+      <span style="display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em"><span data-line style="display:block">to go-live.</span></span>
+    </h2>
+    <span data-reveal style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase">(07) How we work — five steps</span>
+  </div>
+  <sc-for list="{{ steps }}" as="st" hint-placeholder-count="5">
+    <div data-stack style="position:sticky;top:0;height:100vh;display:flex;align-items:stretch;padding:72px clamp(12px,1.6vw,24px) clamp(12px,1.6vw,24px);box-sizing:border-box">
+      <div data-stack-inner style="flex:1;background:{{ st.bg }};color:{{ st.fg }};box-shadow:inset 0 0 0 1px {{ st.edge }};padding:clamp(22px,3vw,48px);display:flex;flex-wrap:wrap;gap:24px clamp(24px,4vw,72px);transform-origin:center top;will-change:transform;overflow:hidden;align-content:space-between">
+        <div style="flex:1 1 100%;display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase"><span>Step {{ st.n }} / 05</span><span style="opacity:.62">{{ st.time }}</span></div>
+        <span style="flex:1 1 300px;font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(120px,22vw,380px);line-height:.72;letter-spacing:-.08em;align-self:flex-end">{{ st.n }}</span>
+        <div style="flex:1 1 380px;max-width:560px;display:flex;flex-direction:column;gap:20px;align-self:flex-end">
+          <span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(40px,4.6vw,84px);letter-spacing:-.055em;line-height:.9">{{ st.title }}</span>
+          <span style="font-size:clamp(16px,1.25vw,19px);line-height:1.55;opacity:.75;text-wrap:pretty">{{ st.body }}</span>
+          <div style="display:flex;flex-direction:column"><sc-for list="{{ st.out }}" as="o" hint-placeholder-count="3"><div style="display:flex;gap:12px;padding:9px 0;border-top:1px solid {{ st.line }};font-size:14px"><span style="width:7px;height:7px;background:#F5A524;margin-top:6px;flex:none"></span>{{ o }}</div></sc-for></div>
+        </div>
+      </div>
+    </div>
+  </sc-for>
+</section>
+
+<!-- 08 TESTIMONIALS -->
+<section data-theme="ink" data-screen-label="08 Testimonials" style="padding:clamp(110px,13vw,200px) clamp(20px,3.2vw,48px) clamp(90px,10vw,150px)">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding-bottom:18px;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent);margin-bottom:clamp(40px,6vw,88px)">
+    <span>(08) In their words</span><span style="opacity:.62">Placeholder testimonials</span>
+  </div>
+  <div style="display:grid">
+    <sc-for list="{{ quotes }}" as="q" hint-placeholder-count="4">
+      <figure style="grid-area:1/1;margin:0;display:flex;flex-direction:column;gap:clamp(36px,5vw,64px);opacity:{{ q.o }};transform:{{ q.t }};transition:opacity .7s cubic-bezier(.22,1,.36,1),transform 1s cubic-bezier(.22,1,.36,1);pointer-events:{{ q.pe }}">
+        <blockquote style="margin:0;font-family:'Cabinet Grotesk',sans-serif;font-weight:500;font-size:clamp(32px,4.6vw,80px);line-height:1.02;letter-spacing:-.04em;max-width:1300px;text-wrap:pretty"><span style="color:#F5A524">“</span>{{ q.text }}”</blockquote>
+        <figcaption style="display:flex;flex-wrap:wrap;gap:20px;align-items:center">
+          <span style="width:56px;height:56px;background:#F2F1EC;opacity:.14"></span>
+          <span style="display:flex;flex-direction:column;gap:3px"><span style="font-weight:600;font-size:16px">[Customer name]</span><span style="font-size:14px;opacity:.62">[Position], [Company] — uses {{ q.product }}</span></span>
+        </figcaption>
+      </figure>
+    </sc-for>
+  </div>
+  <div style="margin-top:clamp(48px,6vw,80px);display:flex;align-items:center;gap:20px">
+    <span style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em">{{ qNum }} / 04</span>
+    <div style="flex:1;height:1px;background:color-mix(in srgb,currentColor 18%,transparent);position:relative;overflow:hidden"><div ref="{{ qBarRef }}" style="position:absolute;inset:0;background:#F5A524;transform:scaleX(0);transform-origin:left"></div></div>
+    <button onClick="{{ prevQ }}" aria-label="Previous testimonial" style="width:52px;height:52px;border:1px solid currentColor;background:transparent;color:inherit;font-size:18px;cursor:pointer;transition:background .3s,color .3s" style-hover="background:#F2F1EC;color:#041433">←</button>
+    <button onClick="{{ nextQ }}" aria-label="Next testimonial" style="width:52px;height:52px;border:1px solid currentColor;background:transparent;color:inherit;font-size:18px;cursor:pointer;transition:background .3s,color .3s" style-hover="background:#F2F1EC;color:#041433">→</button>
+  </div>
+</section>
+
+<!-- 09 CTA -->
+<section id="contact" data-theme="accent" data-screen-label="09 CTA" style="padding:clamp(110px,13vw,200px) clamp(20px,3.2vw,48px) clamp(64px,8vw,110px)">
+  <span data-reveal style="display:block;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:clamp(28px,4vw,48px)">(09) Start a conversation</span>
+  <h2 data-split style="margin:0;font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(56px,11.6vw,212px);line-height:.84;letter-spacing:-.065em">
+    <span style="display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em"><span data-line style="display:block">Let's build a</span></span>
+    <span style="display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em"><span data-line style="display:block;padding-left:max(0px,calc(16vw - 40px))">smarter way</span></span>
+    <span style="display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em"><span data-line style="display:block">to work.</span></span>
+  </h2>
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:32px;margin-top:clamp(48px,6vw,88px);padding-top:24px;border-top:1px solid currentColor">
+    <p data-reveal style="margin:0;max-width:440px;font-size:18px;line-height:1.5;font-weight:500">Walk through any product with the engineers who build it — or tell us how your business runs and we'll show you exactly what fits.</p>
+    <div data-reveal data-delay="120" style="display:flex;flex-wrap:wrap;gap:8px">
+      <a href="#products" data-roll data-magnetic style="height:60px;padding:0 26px;background:#041433;color:#F2F1EC;display:flex;align-items:center;gap:14px;font-size:15px;font-weight:500">
+        <span style="display:block;overflow:hidden;height:20px;line-height:20px"><span data-roll-inner style="display:flex;flex-direction:column;transition:transform .55s cubic-bezier(.22,1,.36,1)"><span>Explore our products</span><span>Explore our products</span></span></span><span style="color:#F5A524">→</span>
+      </a>
+      <a href="mailto:hello@valuedcrown.tech" data-roll data-magnetic style="height:60px;padding:0 26px;border:1px solid #041433;display:flex;align-items:center;font-size:15px;font-weight:500;box-sizing:border-box">
+        <span style="display:block;overflow:hidden;height:20px;line-height:20px"><span data-roll-inner style="display:flex;flex-direction:column;transition:transform .55s cubic-bezier(.22,1,.36,1)"><span>Talk to our team</span><span>Talk to our team</span></span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 10 FOOTER -->
+<footer ref="{{ footRef }}" data-theme="ink" data-screen-label="10 Footer" style="background:#041433;color:#F2F1EC;padding:clamp(72px,8vw,120px) clamp(20px,3.2vw,48px) 24px;overflow:hidden">
+  <div style="display:flex;flex-wrap:wrap;gap:48px clamp(32px,5vw,80px);justify-content:space-between;padding-bottom:clamp(56px,7vw,96px)">
+    <div style="flex:1 1 320px;max-width:440px;display:flex;flex-direction:column;gap:26px">
+      <img src="assets/logo-lockup.png" alt="Valued Crown Technologies" style="width:210px;height:auto">
+      <p style="margin:0;font-size:15px;line-height:1.55;opacity:.64">Business software for finance, inventory, sales, people and healthcare — designed, built and supported in-house.</p>
+      <form onSubmit="{{ subscribe }}" style="display:flex;flex-direction:column;gap:10px">
+        <label style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;opacity:.55">PRODUCT NOTES — ONCE A MONTH</label>
+        <div style="display:flex;border-bottom:1px solid #F2F1EC"><input type="email" required placeholder="you@company.com" style="flex:1;min-width:0;background:transparent;border:0;outline:0;color:#F2F1EC;font:inherit;font-size:17px;padding:14px 0"><button type="submit" style="background:transparent;border:0;color:#F5A524;font:inherit;font-weight:600;font-size:15px;cursor:pointer">{{ subLabel }}</button></div>
+      </form>
+    </div>
+    <div style="flex:2 1 560px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:36px">
+      <sc-for list="{{ footCols }}" as="col" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;opacity:.5;padding-bottom:6px;border-bottom:1px solid rgba(242,241,236,.16)">{{ col.title }}</span>
+          <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="5"><a href="#top" data-roll style="font-size:15px;width:fit-content"><span style="display:block;overflow:hidden;height:21px;line-height:21px"><span data-roll-inner style="display:flex;flex-direction:column;transition:transform .55s cubic-bezier(.22,1,.36,1)"><span>{{ l }}</span><span style="color:#F5A524">{{ l }}</span></span></span></a></sc-for>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="overflow:hidden;border-top:1px solid rgba(242,241,236,.16);padding-top:clamp(16px,2vw,28px)">
+    <div ref="{{ wordRef }}" aria-hidden="true" style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(60px,15.8vw,300px);line-height:.8;letter-spacing:-.07em;white-space:nowrap;display:flex;align-items:flex-end;will-change:transform">Valued Crown<span style="display:inline-block;width:.15em;height:.15em;background:#F5A524;margin-left:.03em;margin-bottom:.02em"></span></div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-top:24px;margin-top:clamp(16px,2vw,28px);border-top:1px solid rgba(242,241,236,.16);font-size:13px">
+    <span style="opacity:.55">© 2026 Valued Crown Technologies. All rights reserved.</span>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;opacity:.8"><a href="#top">Privacy policy</a><a href="#top">Terms &amp; conditions</a><a href="#top">LinkedIn</a><a href="#top">X</a><a href="#top">Instagram</a></div>
+  </div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showPreloader&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;customCursor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { w: window.innerWidth, h: window.innerHeight, menu: false, mega: false, sol: -1, ind: 1, q: 0, sub: false };
+  offs = [];
+  constructor(p) { super(p); ['root','pre','preNum','cur','curDot','curLabel','follow','head','heroHead','plate','plateIn','phone','mani','hWrap','hTrack','hBar','qBar','foot','word'].forEach(k => this[k + 'Ref'] = React.createRef()); }
+  on(el, ev, fn, o) { el.addEventListener(ev, fn, o); this.offs.push(() => el.removeEventListener(ev, fn, o)); }
+
+  splitChars(line) {
+    const walk = node => [...node.childNodes].forEach(n => {
+      if (n.nodeType === 3) { const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(word => { if (!word) return; if (/^\s+$/.test(word)) { frag.appendChild(document.createTextNode(word)); return; }
+          const w = document.createElement('span'); w.style.cssText = 'display:inline-block;white-space:nowrap';
+          [...word].forEach(ch => { const c = document.createElement('span'); c.textContent = ch; c.setAttribute('data-ch', ''); c.style.cssText = 'display:inline-block;will-change:transform'; w.appendChild(c); });
+          frag.appendChild(w); });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1 && !n.hasAttribute('data-keep')) walk(n);
+      else if (n.nodeType === 1) n.setAttribute('data-ch', '');
+    });
+    walk(line);
+  }
+
+  componentDidMount() {
+    const root = this.rootRef.current; if (!root) return;
+    const E = 'cubic-bezier(0.22,1,0.36,1)', EX = 'cubic-bezier(0.16,1,0.3,1)';
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = matchMedia('(hover: hover) and (pointer: fine)').matches && this.props.customCursor !== false;
+    const q = s => [...root.querySelectorAll(s)];
+    this.on(window, 'resize', () => { this.setState({ w: innerWidth, h: innerHeight }); setTimeout(() => this.sizeH(), 50); });
+
+    // manifesto words
+    const mani = this.maniRef.current;
+    if (mani && !mani.dataset.done) { mani.dataset.done = 1; const words = mani.textContent.trim().split(/\s+/);
+      mani.innerHTML = words.map(w => `<span data-w style="opacity:.16;transition:opacity .25s">${w}</span>`).join(' '); }
+    this.words = mani ? [...mani.querySelectorAll('[data-w]')] : [];
+
+    q('[data-split] [data-line]').forEach(l => this.splitChars(l));
+    if (!reduce) {
+      q('[data-ch]').forEach(c => { c.style.transform = 'translateY(108%) rotate(4deg)'; });
+      q('[data-reveal]').forEach(el => { el.style.opacity = 0; el.style.transform = 'translateY(30px)'; });
+      q('[data-count]').forEach(el => { el.textContent = '0' + (el.dataset.suffix || ''); });
+    } else this.words.forEach(w => w.style.opacity = 1);
+    const reveal = el => { const d = +(el.dataset.delay || 0); el.style.transition = `opacity 1.1s ${E} ${d}ms, transform 1.3s ${EX} ${d}ms`; el.style.opacity = 1; el.style.transform = 'none'; };
+    const split = el => { el.querySelectorAll('[data-ch]').forEach((c, i) => { c.style.transition = `transform 1.25s ${EX} ${i * 16}ms`; c.style.transform = 'none'; }); };
+    const count = el => { const to = +el.dataset.count, suf = el.dataset.suffix || '', t0 = performance.now();
+      const f = t => { const p = Math.min(1, (t - t0) / 2200), e = p === 1 ? 1 : 1 - Math.pow(2, -10 * p); el.textContent = Math.round(to * e) + suf; if (p < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); };
+    const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const el = e.target; io.unobserve(el);
+      if (el.hasAttribute('data-split')) split(el); else if (el.hasAttribute('data-count')) count(el); else reveal(el); }), { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+    this.offs.push(() => io.disconnect());
+    let started = false;
+    const start = () => { if (started || reduce) return; started = true; q('[data-split],[data-reveal],[data-count]').forEach(el => io.observe(el)); };
+
+    // preloader: counter, then column curtain
+    const pre = this.preRef.current; const cols = [...pre.querySelectorAll('[data-precol]')]; const ui = pre.querySelector('[data-preui]');
+    const exit = () => { if (this.exited) return; this.exited = true; ui.style.opacity = 0;
+      cols.forEach((c, i) => { c.style.transitionDelay = (120 + i * 70) + 'ms'; c.style.transform = 'translateY(-101%)'; });
+      this.t1 = setTimeout(start, 450); this.t2 = setTimeout(() => { pre.style.display = 'none'; }, 1700); };
+    if (this.props.showPreloader === false || reduce) { pre.style.display = 'none'; this.exited = true; start(); }
+    else { const t0 = performance.now(), dur = 1600;
+      const tick = t => { const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+        if (this.preNumRef.current) this.preNumRef.current.textContent = String(Math.round(e * 100)).padStart(3, '0');
+        if (p < 1) requestAnimationFrame(tick); else exit(); };
+      requestAnimationFrame(tick); }
+    this.t3 = setTimeout(() => { exit(); start(); }, 2800);
+
+    // anchors
+    this.on(root, 'click', e => { const a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a) return; const id = a.getAttribute('href').slice(1);
+      const tgt = id === 'top' ? 0 : document.getElementById(id); if (tgt === null) return; e.preventDefault();
+      if (this.lenis) this.lenis.scrollTo(tgt, { duration: 1.8 }); else window.scrollTo({ top: tgt === 0 ? 0 : tgt.getBoundingClientRect().top + scrollY, behavior: 'smooth' }); });
+
+    // roll text
+    q('[data-roll]').forEach(a => { const inner = a.querySelector('[data-roll-inner]'); if (!inner) return;
+      this.on(a, 'pointerenter', () => inner.style.transform = 'translateY(-50%)'); this.on(a, 'pointerleave', () => inner.style.transform = ''); });
+    // delegate roll for elements mounted later
+    this.on(root, 'pointerover', e => { const a = e.target.closest && e.target.closest('[data-roll]'); if (!a || a._rb) return; a._rb = 1; const inner = a.querySelector('[data-roll-inner]'); if (!inner) return;
+      inner.style.transform = 'translateY(-50%)'; a.addEventListener('pointerleave', () => { inner.style.transform = ''; a._rb = 0; }, { once: true }); });
+
+    // magnetic
+    if (fine && !reduce) q('[data-magnetic]').forEach(el => {
+      this.on(el, 'pointermove', e => { const r = el.getBoundingClientRect(); el.style.transition = 'transform .2s linear'; el.style.transform = `translate(${((e.clientX - r.left - r.width / 2) * .18).toFixed(1)}px, ${((e.clientY - r.top - r.height / 2) * .3).toFixed(1)}px)`; });
+      this.on(el, 'pointerleave', () => { el.style.transition = `transform .9s ${E}`; el.style.transform = ''; });
+    });
+
+    // cursor
+    let mx = innerWidth / 2, my = innerHeight / 2, cx = mx, cy = my, fx = mx, fy = my;
+    const dot = this.curDotRef.current, lab = this.curLabelRef.current;
+    if (fine) { this.curRef.current.style.opacity = 1; }
+    let curState = '';
+    this.on(window, 'pointermove', e => { mx = e.clientX; my = e.clientY;
+      if (!fine) return; const lt = e.target.closest && e.target.closest('[data-cursor-label]'); const it = e.target.closest && e.target.closest('a,button,input');
+      const s = lt && !it ? 'L:' + lt.dataset.cursorLabel : it ? 'I' : '';
+      if (s === curState) return; curState = s;
+      if (s.startsWith('L:')) { dot.style.width = '88px'; dot.style.height = '88px'; lab.textContent = s.slice(2); lab.style.opacity = 1; }
+      else if (s === 'I') { dot.style.width = '34px'; dot.style.height = '34px'; lab.style.opacity = 0; }
+      else { dot.style.width = '10px'; dot.style.height = '10px'; lab.style.opacity = 0; } });
+
+    // testimonials autoplay
+    this.restartQ = () => { const b = this.qBarRef.current; if (!b) return; b.style.transition = 'none'; b.style.transform = 'scaleX(0)'; void b.offsetWidth; b.style.transition = 'transform 7s linear'; b.style.transform = 'scaleX(1)'; };
+    this.qT = setInterval(() => this.setState(s => ({ q: (s.q + 1) % 4 })), 7000); this.restartQ();
+
+    this.sizeH(); this.t4 = setTimeout(() => this.sizeH(), 800);
+
+    const THEMES = { paper: ['#F2F1EC', '#041433'], ink: ['#041433', '#F2F1EC'], accent: ['#F5A524', '#041433'] };
+    const secs = q('section[data-theme]');
+    let curTheme = 'paper', lastY = scrollY;
+    const head = this.headRef.current;
+    const loop = t => {
+      this.raf = requestAnimationFrame(loop);
+      if (!this.lenis && window.Lenis && !reduce) this.lenis = new window.Lenis({ lerp: 0.08, smoothWheel: true });
+      if (this.lenis) this.lenis.raf(t);
+      const y = scrollY, vh = innerHeight, vw = innerWidth;
+      // theme
+      let th = curTheme; for (const s of secs) { const r = s.getBoundingClientRect(); if (r.top <= vh * .5 && r.bottom > vh * .5) { th = s.dataset.theme; break; } }
+      if (th !== curTheme) { curTheme = th; root.style.backgroundColor = THEMES[th][0]; root.style.color = THEMES[th][1]; }
+      if (head) { head.style.backgroundColor = y > 40 ? THEMES[curTheme][0] : 'transparent';
+        if (Math.abs(y - lastY) > 2) { head.style.transform = (y > lastY && y > 200 && !this.state.menu && !this.state.mega) ? 'translateY(-100%)' : 'none'; lastY = y; } }
+      if (!reduce) {
+        // hero
+        const hh = this.heroHeadRef.current; if (hh && y < vh * 1.5) hh.style.transform = `translate3d(0,${(y * .22).toFixed(1)}px,0)`;
+        const pl = this.plateRef.current;
+        if (pl) { const r = pl.getBoundingClientRect(); if (r.top < vh && r.bottom > 0) {
+          const p = Math.min(1, Math.max(0, (vh * .95 - r.top) / (vh * .8))), e = 1 - Math.pow(1 - p, 2);
+          const pad = parseFloat(getComputedStyle(pl).marginLeft) * -1; const ins = (1 - e) * Math.max(pad, vw * .08);
+          pl.style.clipPath = `inset(0 ${ins.toFixed(1)}px 0 ${ins.toFixed(1)}px)`;
+          const pi = this.plateInRef.current; if (pi) pi.style.transform = `translate3d(0,${((r.top - vh * .2) * -.12).toFixed(1)}px,0) scale(${(1.08 - .08 * e).toFixed(4)})`;
+          const ph = this.phoneRef.current; if (ph) ph.style.transform = `translate3d(0,${((r.top) * .18).toFixed(1)}px,0)`; } }
+        // manifesto
+        if (mani && this.words.length) { const r = mani.getBoundingClientRect(); if (r.top < vh && r.bottom > 0) {
+          const p = Math.min(1, Math.max(0, (vh * .85 - r.top) / (r.height + vh * .35))); const n = this.words.length, k = p * n * 1.15;
+          this.words.forEach((wd, i) => { const o = Math.min(1, Math.max(.16, k - i)); const v = o > .99 ? '1' : o.toFixed(2); if (wd._o !== v) { wd._o = v; wd.style.opacity = v; } }); } }
+        // horizontal
+        const hw = this.hWrapRef.current, tr = this.hTrackRef.current;
+        if (hw && tr && this.isH) { const r = hw.getBoundingClientRect(); const p = Math.min(1, Math.max(0, -r.top / (r.height - vh)));
+          const dist = tr.scrollWidth - vw; tr.style.transform = `translate3d(${(-p * dist).toFixed(1)}px,0,0)`;
+          if (this.hBarRef.current) this.hBarRef.current.style.transform = `scaleX(${p.toFixed(4)})`;
+          tr.querySelectorAll('[data-hpar]').forEach(m => { const pr = m.parentElement.getBoundingClientRect(); const c = pr.left + pr.width / 2 - vw / 2; m.style.transform = `translate3d(${(c * -.08).toFixed(1)}px,0,0)`; }); }
+        // stacking
+        const st = q('[data-stack]');
+        st.forEach((s, i) => { const nx = st[i + 1]; const inner = s.firstElementChild; if (!inner) return;
+          let p = 0; if (nx) { const nr = nx.getBoundingClientRect(); p = Math.min(1, Math.max(0, 1 - nr.top / vh)); }
+          inner.style.transform = p > 0 ? `scale(${(1 - .07 * p).toFixed(4)}) translate3d(0,${(-2 * p).toFixed(2)}%,0)` : ''; inner.style.filter = p > 0 ? `brightness(${(1 - .25 * p).toFixed(3)})` : ''; });
+        // footer wordmark
+        const wd = this.wordRef.current; if (wd) { const r = wd.getBoundingClientRect(); const p = Math.min(1, Math.max(0, (vh - r.top) / (vh * .6))); wd.style.transform = `translate3d(0,${((1 - p) * 70).toFixed(1)}%,0)`; }
+      }
+      // cursor + follower
+      cx += (mx - cx) * .2; cy += (my - cy) * .2; fx += (mx - fx) * .1; fy += (my - fy) * .1;
+      if (fine && this.curRef.current) this.curRef.current.style.transform = `translate3d(${cx.toFixed(1)}px,${cy.toFixed(1)}px,0)`;
+      if (this.followRef.current) this.followRef.current.style.transform = `translate3d(${fx.toFixed(1)}px,${fy.toFixed(1)}px,0) rotate(${((mx - fx) * .04).toFixed(2)}deg)`;
+    };
+    this.raf = requestAnimationFrame(loop);
+  }
+
+  sizeH() { const hw = this.hWrapRef.current, tr = this.hTrackRef.current; this.isH = innerWidth >= 900;
+    if (!hw || !tr) return; hw.style.height = this.isH ? (tr.scrollWidth - innerWidth + innerHeight) + 'px' : ''; if (!this.isH) tr.style.transform = ''; }
+
+  componentDidUpdate(pp, ps) { if (ps.q !== this.state.q && this.restartQ) this.restartQ(); if (ps.w !== this.state.w) this.sizeH(); }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); ['t1','t2','t3','t4'].forEach(k => clearTimeout(this[k])); clearInterval(this.qT); this.offs.forEach(f => f()); if (this.lenis) this.lenis.destroy(); }
+  setQ(d) { clearInterval(this.qT); this.setState(s => ({ q: (s.q + d + 4) % 4 })); this.qT = setInterval(() => this.setState(s => ({ q: (s.q + 1) % 4 })), 7000); }
+
+  renderVals() {
+    const { w, h, menu, mega, sol, ind, q, sub } = this.state; const isDesk = w >= 1024, isH = w >= 900;
+    const fine = typeof matchMedia !== 'undefined' && matchMedia('(hover: hover)').matches;
+    const P = [
+      { name: 'Tally', cat: 'Accounting & finance', tagline: 'Books that are already closed when month-end arrives.', feats: ['Invoicing & receivables', 'Automatic bank reconciliation', 'Tax & VAT returns', 'Multi-entity consolidation'], inds: 'Finance teams · SMEs · groups', bg: '#FFFFFF', fg: '#041433', line: '#E3E4E8', edge: 'transparent' },
+      { name: 'Shelf', cat: 'Inventory', tagline: 'Every shelf, every branch, counted right now — not last Friday.', feats: ['Live stock across branches', 'Reorder points & purchase orders', 'Batch & expiry tracking', 'Transfers between warehouses'], inds: 'Supermarkets · distributors · retail', bg: '#F5A524', fg: '#041433', line: 'rgba(4,20,51,.25)', edge: 'transparent' },
+      { name: 'Till', cat: 'Point of sale', tagline: 'Checkout that keeps selling when the internet doesn\u2019t.', feats: ['Three-tap checkout, split tender', 'Offline mode with auto-sync', 'One-minute day close & Z-report', 'Live takings per branch'], inds: 'Retail · restaurants · hospitality', bg: '#041433', fg: '#F2F1EC', line: 'rgba(242,241,236,.16)', edge: 'rgba(242,241,236,.2)' },
+      { name: 'Roster', cat: 'HR & payroll', tagline: 'Shifts, leave and payroll running off the same clock.', feats: ['Drag-and-drop shift planning', 'Leave requests & approvals', 'Payroll with statutory deductions', 'Attendance from the till login'], inds: 'Any business with shift-based teams', bg: '#F2F1EC', fg: '#041433', line: 'rgba(4,20,51,.16)', edge: 'transparent' },
+      { name: 'Ward', cat: 'Hospital management', tagline: 'Records, billing and pharmacy on a single patient chart.', feats: ['Electronic patient records', 'Pharmacy & dispensing', 'HMO & insurance billing', 'Lab orders and results'], inds: 'Hospitals · clinics · diagnostic labs', bg: '#FFFFFF', fg: '#041433', line: '#E3E4E8', edge: 'transparent' }
+    ];
+    const products = P.map((p, i) => ({ ...p, n: '0' + (i + 1), lower: p.name.toLowerCase(), isTally: i === 0, isShelf: i === 1, isTill: i === 2, isRoster: i === 3, isWard: i === 4 }));
+    const SOL = [
+      ['Financial management', 'Ledgers, invoices, bank feeds and tax returns that reconcile themselves.', 'Tally', 'Cash flow', '+18.4%', '#FFFFFF', '#041433'],
+      ['Inventory & warehousing', 'Live stock, reorder points and transfers across every location.', 'Shelf', 'Stock value', '84.2M', '#F5A524', '#041433'],
+      ['Sales & transactions', 'Fast checkout, split payments and a day close that takes a minute.', 'Till', 'Takings today', '1.28M', '#041433', '#F2F1EC'],
+      ['People & payroll', 'Rotas, leave, attendance and payslips in one place.', 'Roster', 'Hours this week', '1,920', '#F2F1EC', '#041433'],
+      ['Patient & clinical', 'Records, prescriptions and billing on a shared chart.', 'Ward', 'Admissions', '36', '#FFFFFF', '#041433'],
+      ['Customer relationships', 'Purchase history, credit limits and loyalty tied to every sale.', 'Till + Tally', 'Repeat customers', '62%', '#F5A524', '#041433'],
+      ['Workflow automation', 'Approvals, alerts and scheduled reports that run without reminders.', 'Crown Suite', 'Tasks automated', '412', '#041433', '#F2F1EC'],
+      ['Analytics & reporting', 'One dashboard across products, branches and entities.', 'Crown Suite', 'Reports run', '2,140', '#F2F1EC', '#041433']
+    ];
+    const bars = seed => Array.from({ length: 10 }, (_, k) => ({ h: (30 + ((seed * 37 + k * 23) % 65)) + '%', c: k === 7 ? '#F5A524' : '#041433' }));
+    const solutions = SOL.map(([title, body, product, screen, figure, bg, fg], i) => ({ n: '0' + (i + 1), title, body, product, screen, figure, bg, fg, bars: bars(i + 1),
+      enter: () => this.setState({ sol: i }), o: sol === -1 || sol === i ? 1 : .32, shift: sol === i && isDesk ? 'translateX(12px)' : 'none', sq: sol === i ? '.32em' : '0em',
+      clip: sol === i ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)' }));
+    const IND = [
+      ['Hospitality', 'Hotels, restaurants and lounges where the bar, the kitchen and the front desk all draw on the same stock.', ['Till', 'Shelf', 'Roster'], 'hotel front desk at check-in'],
+      ['Retail & supermarkets', 'Multi-branch stores counting thousands of SKUs while serving a queue at every till.', ['Till', 'Shelf', 'Tally'], 'supermarket aisle, cashier lane'],
+      ['Healthcare', 'Hospitals, clinics and labs that need records, billing and the pharmacy to agree.', ['Ward', 'Tally', 'Roster'], 'clinic reception, nurse at terminal'],
+      ['Manufacturing', 'Plants tracking raw materials in, finished goods out, and the cost of everything in between.', ['Shelf', 'Tally', 'Roster'], 'factory floor, packing line'],
+      ['Education', 'Schools managing fees, staff payroll and stores on a single ledger.', ['Tally', 'Roster'], 'school bursar office'],
+      ['Financial services', 'Firms that depend on reconciliations, audit trails and reporting deadlines.', ['Tally'], 'finance team at work'],
+      ['Logistics & distribution', 'Distributors moving stock between warehouses, vans and customers every hour.', ['Shelf', 'Till', 'Tally'], 'warehouse loading bay'],
+      ['Enterprise', 'Groups running several companies that need one consolidated view.', ['Crown Suite'], 'boardroom, group finance review']
+    ];
+    const plates = ['#041433', '#0A1E45', '#041433', '#0A1E45', '#041433', '#0A1E45', '#041433', '#0A1E45'];
+    const industries = IND.map(([name, text, prods, photo], i) => ({ n: '0' + (i + 1), name, text, prods, photo, plate: plates[i], pick: () => this.setState({ ind: i }),
+      o: i === ind ? 1 : .34, shift: i === ind ? 'translateX(14px)' : 'none', clip: i === ind ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)',
+      vis: i === ind ? 1 : 0, ty: i === ind ? 'none' : 'translateY(14px)', pe: i === ind ? 'auto' : 'none' }));
+    const QS = [
+      ['Month-end used to take us eleven days. With Tally it\u2019s two, and nobody stays late for it anymore.', 'Tally'],
+      ['The internet went down on our busiest Saturday. The tills didn\u2019t notice. Neither did our customers.', 'Till'],
+      ['For the first time I can see stock across all four stores without calling a single manager.', 'Shelf'],
+      ['Payroll was a three-person week. Now it\u2019s a Friday-morning review over coffee.', 'Roster']
+    ];
+    const quotes = QS.map(([text, product], i) => ({ text, product, o: i === q ? 1 : 0, t: i === q ? 'none' : i < q ? 'translateY(-30px)' : 'translateY(30px)', pe: i === q ? 'auto' : 'none' }));
+    const STEPS = [
+      ['Sit in', 'We spend time on your floor and map how work actually moves — not how the org chart says it does.', ['Process map of every till, store and office', 'List of current tools and data to migrate', 'Shortlist of products and modules'], 'Week 1', '#FFFFFF', '#041433', '#E3E4E8', 'rgba(4,20,51,.12)'],
+      ['Scope', 'A fixed plan: which products, which modules, what migrates, and the date it all goes live.', ['Written scope with fixed go-live date', 'Data migration plan', 'Hardware checklist for tills and printers'], 'Week 2', '#041433', '#F2F1EC', 'rgba(242,241,236,.16)', 'rgba(242,241,236,.2)'],
+      ['Configure', 'Chart of accounts, price lists, branches and user roles set up and tested before launch day.', ['Configured staging environment', 'Imported products, customers and balances', 'Role-based access per staff member'], 'Weeks 3–4', '#F5A524', '#041433', 'rgba(4,20,51,.25)', 'transparent'],
+      ['Train', 'Hands-on sessions by role. Cashiers learn the till, accountants the ledger, managers the dashboard.', ['On-site training per role', 'Printed quick-reference cards', 'Recorded walkthroughs for new hires'], 'Week 5', '#F2F1EC', '#041433', 'rgba(4,20,51,.16)', 'rgba(4,20,51,.16)'],
+      ['Run & refine', 'We stay after go-live. Your feedback goes straight to the team writing the next release.', ['Named support engineer', 'Monthly review of usage and issues', 'Requested features on the public roadmap'], 'Ongoing', '#041433', '#F2F1EC', 'rgba(242,241,236,.16)', 'rgba(242,241,236,.2)']
+    ];
+    const steps = STEPS.map(([title, body, out, time, bg, fg, line, edge], i) => ({ n: '0' + (i + 1), title, body, out, time, bg, fg, line, edge }));
+    const links = [['Home', '#top'], ['Products', '#products'], ['Solutions', '#solutions'], ['Industries', '#industries'], ['About us', '#about'], ['Contact', '#contact']];
+    const D = '#041433', N = '#8A93A6', L = '#F5A524', O = '#E9EAEE';
+    return {
+      rootRef: this.rootRef, preRef: this.preRef, preNumRef: this.preNumRef, curRef: this.curRef, curDotRef: this.curDotRef, curLabelRef: this.curLabelRef,
+      followRef: this.followRef, headRef: this.headRef, heroHeadRef: this.heroHeadRef, plateRef: this.plateRef, plateInRef: this.plateInRef, phoneRef: this.phoneRef,
+      maniRef: this.maniRef, hWrapRef: this.hWrapRef, hTrackRef: this.hTrackRef, hBarRef: this.hBarRef, qBarRef: this.qBarRef, footRef: this.footRef, wordRef: this.wordRef,
+      isDesk, isMobile: !isDesk, preCols: [0, 1, 2, 3, 4],
+      navLinks: links.map(([label, href]) => ({ label, href, dot: label === 'Products' && mega ? 1 : 0, enter: () => this.setState({ mega: label === 'Products' }) })),
+      closeMega: () => this.setState({ mega: false }), megaClip: mega && isDesk ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)', megaPE: mega && isDesk ? 'auto' : 'none', headLine: mega ? 0 : .14,
+      toggleMenu: () => { const m = !this.state.menu; this.setState({ menu: m }); if (this.lenis) m ? this.lenis.stop() : this.lenis.start(); },
+      menuClip: menu ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)', menuPE: menu ? 'auto' : 'none',
+      menuLinks: links.map(([label, href], i) => ({ label, href, n: '0' + (i + 1), t: menu ? 'none' : 'translateY(110%)', d: menu ? (300 + i * 55) + 'ms' : '0ms' })),
+      products, heroBars: [30, 42, 36, 54, 62, 48, 70, 86, 74, 92, 66, 56, 72, 44].map((v, i) => ({ h: v + '%', c: i === 9 ? '#F5A524' : i % 3 === 2 ? '#8A93A6' : '#041433' })),
+      plateH: isDesk ? 'min(86vh, 56vw)' : (w >= 640 ? '70vw' : '108vw'),
+      winL: isDesk ? '6vw' : '5%', winT: isDesk ? '14%' : '16%', winW: isDesk ? '64vw' : '150%',
+      hSticky: isH ? 'sticky' : 'relative', hInnerH: isH ? '100vh' : 'auto', hDir: isH ? 'row' : 'column', hGap: isH ? '20px' : '14px',
+      hPad: isH ? '0 4vw' : 'clamp(90px,12vw,140px) 14px', hTrackW: isH ? 'max-content' : '100%', hIntroW: isH ? 'min(34vw,520px)' : '100%',
+      hPanelW: isH ? 'min(88vw,1360px)' : '100%', hPanelH: isH ? 'calc(100vh - 120px)' : 'auto', hPanelCols: isH ? 'minmax(0,1fr) minmax(0,1.1fr)' : 'minmax(0,1fr)', hBarD: isH ? 'block' : 'none',
+      stock: [['Basmati rice 5kg', '142', '82%', '#041433', '#041433'], ['Vegetable oil 3L', '18', '12%', '#F5A524', '#B06F0A'], ['Detergent 900g', '76', '52%', '#041433', '#041433'], ['Tomato paste 400g', '204', '94%', '#041433', '#041433'], ['Sugar 1kg', '31', '24%', '#F5A524', '#B06F0A']].map(([name, qty, w2, c, tc]) => ({ name, qty, w: w2, c, tc })),
+      tiles: [['Water', '350', D], ['Bread', '1,200', L], ['Yoghurt', '1,450', N], ['Rice 5kg', '6,200', D], ['Eggs', '2,800', L], ['Juice', '1,900', N], ['Sugar', '1,100', D], ['Tea', '950', N], ['Milk', '1,350', L]].map(([name, p, c]) => ({ name, p, c })),
+      shifts: [['[Name] A', [D, D, O, N, N, D, O]], ['[Name] B', [N, O, D, D, L, L, O]], ['[Name] C', [O, D, D, D, D, O, N]], ['[Name] D', [D, N, N, O, D, D, D]], ['[Name] E', [L, L, L, O, D, N, N]]].map(([name, days]) => ({ name, days })),
+      solutions, solLeave: () => this.setState({ sol: -1 }), followO: sol >= 0 && isDesk && fine ? 1 : 0,
+      solSpan: isDesk ? 'auto' : '2 / -1', solTagAlign: isDesk ? 'right' : 'left',
+      solCols: isDesk ? '60px minmax(0,1.5fr) minmax(0,1fr) 140px' : '40px minmax(0,1fr)',
+      industries,
+      stats: [{ v: 5, suf: '', label: 'Software products in active development' }, { v: 120, suf: '+', label: 'Businesses running our software' }, { v: 8, suf: '', label: 'Industries served' }, { v: 10, suf: '+', label: 'Years building business software' }, { v: 4, suf: '', label: 'Countries reached' }].map((s, i) => ({ ...s, n: '0' + (i + 1) })),
+      clients: ['01', '02', '03', '04', '05', '06', '07', '08'],
+      steps, quotes, qNum: '0' + (q + 1), prevQ: () => this.setQ(-1), nextQ: () => this.setQ(1),
+      footCols: [
+        { title: 'PRODUCTS', links: ['Tally', 'Shelf', 'Till', 'Roster', 'Ward'] },
+        { title: 'SOLUTIONS', links: ['Financial management', 'Inventory', 'Sales & POS', 'HR & payroll', 'Analytics'] },
+        { title: 'INDUSTRIES', links: ['Hospitality', 'Retail', 'Healthcare', 'Manufacturing', 'Enterprise'] },
+        { title: 'COMPANY', links: ['About us', 'Careers', 'Contact', 'hello@valuedcrown.tech', '+000 000 000 0000'] }
+      ],
+      subLabel: sub ? 'Subscribed' : 'Subscribe →', subscribe: e => { e.preventDefault(); this.setState({ sub: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
