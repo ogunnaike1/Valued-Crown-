@@ -10,7 +10,7 @@ import CTA from "@/components/sections/CTA";
 
 export const metadata: Metadata = {
   title: { absolute: "Valued Crown Technologies — Business software for retail, restaurants, hotels and laundries" },
-  description: "Hotel Manager, Restaurant Manager, Retail Manager and Laundry Manager: management software for POS, inventory, reservations, billing and reporting.",
+  description: "Hotel Manager, Restaurant Manager, Shop Manager and Laundry Manager: management software for POS, inventory, reservations, billing and reporting.",
   alternates: { canonical: "/" },
 };
 

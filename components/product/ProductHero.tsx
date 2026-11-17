@@ -4,14 +4,14 @@ import SplitHeading from "../SplitHeading";
 import Image from "next/image";
 import type { Product } from "@/data/products";
 
-export const heroTheme = { "hotel-manager": "ink", "restaurant-manager": "paper", "retail-manager": "ink", "laundry-manager": "paper" } as const;
+export const heroTheme = { "hotel-manager": "ink", "restaurant-manager": "paper", "shop-manager": "ink", "laundry-manager": "paper" } as const;
 const bgClass = { ink: "bg-ink text-paper", paper: "" } as const;
 
 /** Product hero. Hotel & Laundry use a centred layout with the preview below; Restaurant & Retail split it. */
 export default function ProductHero({ product: p }: { product: Product }) {
   const theme = heroTheme[p.slug];
-  const split = p.slug === "restaurant-manager" || p.slug === "retail-manager";
-  const reversed = p.slug === "retail-manager";
+  const split = p.slug === "restaurant-manager" || p.slug === "shop-manager";
+  const reversed = p.slug === "shop-manager";
   const btnSolid = theme === "ink" ? { bg: "#FAFCFF", fg: "#041433" } : {};
   const outline = theme === "ink" ? "#FAFCFF" : "#041433";
 

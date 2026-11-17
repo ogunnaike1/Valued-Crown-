@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const INTERESTS = new Set(["general", "hotel-manager", "restaurant-manager", "retail-manager", "laundry-manager"]);
+const INTERESTS = new Set(["general", "hotel-manager", "restaurant-manager", "shop-manager", "laundry-manager"]);
 const clean = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 
 /**

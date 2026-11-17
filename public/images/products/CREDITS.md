@@ -2,7 +2,7 @@ Photos from Unsplash (https://unsplash.com), used under the Unsplash License (fr
 
 - hotel-manager.jpg      — "Reception desk in hotel lobby", Dylan Calluy
 - restaurant-manager.jpg — "Waiter serving beverages", Kate Townsend
-- retail-manager.jpg     — "Woman using point of sale system", Unzer
+- shop-manager.jpg     — "Woman using point of sale system", Unzer
 - laundry-manager.jpg    — "A laundry room with a washing machine and a laundry basket", Anton Savinov
 
 Industries (public/images/industries/), also Unsplash License:

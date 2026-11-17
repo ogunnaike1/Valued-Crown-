@@ -2,7 +2,7 @@
  * Product content. Every string below is taken from the supplied "website contents" documents
  * (Hotel Manager, Restaurant Manager, Retail/Shop Manager, Laundry Manager, Retail Shop Documentation).
  */
-export type ProductSlug = "hotel-manager" | "restaurant-manager" | "retail-manager" | "laundry-manager";
+export type ProductSlug = "hotel-manager" | "restaurant-manager" | "shop-manager" | "laundry-manager";
 
 export interface FeatureGroup { title: string; blurb: string; items: string[] }
 export interface ProductImage { src: string; alt: string; position: string }
@@ -115,15 +115,15 @@ export const products: Product[] = [
     meta: "Restaurant Manager — restaurant POS, table management, kitchen order tickets, inventory, menu management and reporting for restaurants, cafés and bars.",
   },
   {
-    slug: "retail-manager",
-    image: { src: "/images/products/retail-manager.jpg", alt: "Shop assistant using a point-of-sale tablet at a store counter", position: "62% 50%" },
-    name: "Retail Manager",
+    slug: "shop-manager",
+    image: { src: "/images/products/shop-manager.jpg", alt: "Shop assistant using a point-of-sale tablet at a store counter", position: "62% 50%" },
+    name: "Shop Manager",
     industry: "Retail",
     subtitle: "The Complete Retail Management Solution for Growing Businesses",
     headline: "Take control of your retail business",
     intro: [
       "Running a successful retail business requires more than just selling products — it requires complete control over inventory, sales, customers, pricing, and business performance.",
-      "Retail Manager is a powerful, all-in-one retail management software designed to help businesses automate operations, improve efficiency, increase profitability, and deliver exceptional customer experiences. Whether you operate a supermarket, pharmacy, fashion store, electronics shop, wholesale outlet, or a multi-branch retail chain, it provides everything you need to manage your business with confidence.",
+      "Shop Manager is a powerful, all-in-one retail management software designed to help businesses automate operations, improve efficiency, increase profitability, and deliver exceptional customer experiences. Whether you operate a supermarket, pharmacy, fashion store, electronics shop, wholesale outlet, or a multi-branch retail chain, it provides everything you need to manage your business with confidence.",
     ],
     tagline: "Manage Smarter. Sell Faster. Grow Bigger.",
     groups: [
@@ -145,12 +145,12 @@ export const products: Product[] = [
     idealFor: ["Supermarkets", "Grocery & Convenience Stores", "Pharmacies", "Fashion and Clothing Stores", "Electronics Retailers", "Cosmetic Shops", "Furniture Stores", "Hardware Stores", "Wholesale Businesses", "Multi-Location Retail Chains"],
     why: ["Easy to use", "Fast and reliable performance", "Scalable for growing businesses", "Real-time reporting and analytics", "Multi-branch support", "Dedicated technical support", "Affordable licensing options"],
     closing: {
-      title: "Empower your business with Retail Manager",
-      body: ["Retail Manager is more than a software solution — it's a complete retail management platform designed to help retailers simplify operations, improve decision-making, and drive sustainable business growth.", "Whether you're starting a new retail business or expanding an existing one, Retail Manager gives you the technology and tools needed to stay ahead in a competitive marketplace."],
+      title: "Empower your business with Shop Manager",
+      body: ["Shop Manager is more than a software solution — it's a complete retail management platform designed to help retailers simplify operations, improve decision-making, and drive sustainable business growth.", "Whether you're starting a new retail business or expanding an existing one, Shop Manager gives you the technology and tools needed to stay ahead in a competitive marketplace."],
     },
     colors: { bg: "#FFFFFF", fg: "#041433", line: "#E3E4E8", edge: "transparent" },
     capabilities: ["pos", "inventory", "customers", "multi-branch", "reporting", "billing", "security"],
-    meta: "Retail Manager — all-in-one retail management software: POS, inventory control, sales management, customers, multi-branch and reporting.",
+    meta: "Shop Manager — all-in-one retail management software: POS, inventory control, sales management, customers, multi-branch and reporting.",
   },
   {
     slug: "laundry-manager",

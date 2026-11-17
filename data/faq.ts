@@ -8,7 +8,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Which product do I need?",
-    a: "Retail Manager covers supermarkets, pharmacies, fashion, electronics and other shops. Restaurant Manager covers restaurants, cafés, bars and catering. Hotel Manager covers hotels, resorts, guest houses and serviced apartments. Laundry Manager covers laundry shops, dry cleaners and commercial laundries.",
+    a: "Shop Manager covers supermarkets, pharmacies, fashion, electronics and other shops. Restaurant Manager covers restaurants, cafés, bars and catering. Hotel Manager covers hotels, resorts, guest houses and serviced apartments. Laundry Manager covers laundry shops, dry cleaners and commercial laundries.",
   },
   {
     q: "Can I manage more than one branch?",
@@ -16,7 +16,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Is the software cloud-based or installed on-site?",
-    a: "Retail Manager and Hotel Manager are available with both cloud and on-premise deployment options.",
+    a: "Shop Manager and Hotel Manager are available with both cloud and on-premise deployment options.",
   },
   {
     q: "How is my business data protected?",
@@ -32,7 +32,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Does the point of sale work with scanners and receipts?",
-    a: "Retail Manager supports barcode scanner integration, multiple payment options, receipt printing and email receipts, discounts and promotions, and returns and refunds. Restaurant Manager adds split billing, bill merging and kitchen order tickets.",
+    a: "Shop Manager supports barcode scanner integration, multiple payment options, receipt printing and email receipts, discounts and promotions, and returns and refunds. Restaurant Manager adds split billing, bill merging and kitchen order tickets.",
   },
   {
     q: "Can restaurant and bar sales be added to a guest's hotel bill?",

@@ -9,7 +9,7 @@ import { products } from "@/data/products";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Talk to Valued Crown Technologies about Hotel Manager, Restaurant Manager, Retail Manager or Laundry Manager.",
+  description: "Talk to Valued Crown Technologies about Hotel Manager, Restaurant Manager, Shop Manager or Laundry Manager.",
   alternates: { canonical: "/contact" },
 };
 

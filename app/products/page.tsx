@@ -10,7 +10,7 @@ import { capabilities } from "@/data/solutions";
 
 export const metadata: Metadata = {
   title: "Products",
-  description: "Hotel Manager, Restaurant Manager, Retail Manager and Laundry Manager — management software for hospitality, food service, retail and laundry businesses.",
+  description: "Hotel Manager, Restaurant Manager, Shop Manager and Laundry Manager — management software for hospitality, food service, retail and laundry businesses.",
   alternates: { canonical: "/products" },
 };
 

@@ -24,7 +24,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
       <Features p={p} />
       <Benefits p={p} />
       <Modules p={p} />
-      {p.slug === "retail-manager" ? <RetailOperations /> : null}
+      {p.slug === "shop-manager" ? <RetailOperations /> : null}
       <IdealFor p={p} />
       <Closing p={p} />
     </>
