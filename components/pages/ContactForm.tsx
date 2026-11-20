@@ -10,7 +10,7 @@ const interests = [
   ...products.map((p) => ({ value: p.slug, label: p.name })),
 ];
 
-const field = "w-full bg-transparent border-0 border-b border-current/40 py-3 text-[17px] outline-none transition-colors duration-300 focus:border-[#E27C22] placeholder:text-current/40";
+const field = "w-full bg-transparent border-0 border-b border-current/40 py-2 sm:py-3 text-[16px] sm:text-[17px] outline-none transition-colors duration-300 focus:border-[#E27C22] placeholder:text-current/40";
 
 /** The form itself. `tone` is the background it sits on: "dark" (the Contact page) or "light" (the pop-up). */
 export function ContactFields({ interest: initial, tone = "dark" }: { interest?: string | null; tone?: "dark" | "light" }) {
@@ -56,7 +56,7 @@ export function ContactFields({ interest: initial, tone = "dark" }: { interest?:
 
   const err = (k: string) => (fieldErrors[k] ? <span role="alert" className="text-[13px] underline underline-offset-2">{fieldErrors[k]}</span> : null);
   return (
-    <form onSubmit={onSubmit} noValidate className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-7">
+    <form onSubmit={onSubmit} noValidate className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 sm:gap-y-7">
       <label className="flex flex-col gap-1"><span className="label opacity-60">Name *</span><input name="name" autoComplete="name" className={field} placeholder="Your full name" />{err("name")}</label>
       <label className="flex flex-col gap-1"><span className="label opacity-60">Company</span><input name="company" autoComplete="organization" className={field} placeholder="Your business" /></label>
       <label className="flex flex-col gap-1"><span className="label opacity-60">Email *</span><input name="email" type="email" autoComplete="email" className={field} placeholder="you@company.com" />{err("email")}</label>
@@ -67,11 +67,11 @@ export function ContactFields({ interest: initial, tone = "dark" }: { interest?:
           {interests.map((i) => <option key={i.value} value={i.value} className="text-ink">{i.label}</option>)}
         </select>
       </label>
-      <label className="flex flex-col gap-1 sm:col-span-2"><span className="label opacity-60">Message *</span><textarea name="message" rows={5} className={`${field} resize-y`} placeholder="Tell us about your business and what you need" />{err("message")}</label>
+      <label className="flex flex-col gap-1 sm:col-span-2"><span className="label opacity-60">Message *</span><textarea name="message" rows={3} className={`${field} resize-y`} placeholder="Tell us about your business and what you need" />{err("message")}</label>
       {/* honeypot */}
       <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] w-px h-px opacity-0" />
-      <div className={`sm:col-span-2 flex flex-wrap items-center gap-5 ${tone === "light" ? "sticky bottom-0 z-10 -mx-[clamp(22px,3.4vw,44px)] px-[clamp(22px,3.4vw,44px)] -mb-[clamp(24px,3vw,40px)] pt-4 pb-[clamp(16px,2vw,24px)] bg-white border-t border-ink/10" : ""}`}>
-        <button type="submit" disabled={status === "sending"} className={`h-[60px] px-8 font-medium text-[15px] flex items-center gap-3 cursor-pointer disabled:opacity-60 transition-transform duration-300 hover:-translate-y-[2px] ${tone === "dark" ? "bg-paper text-ink" : "bg-ink text-paper"}`}>
+      <div className={`sm:col-span-2 flex flex-wrap items-center gap-5 ${tone === "light" ? "sticky bottom-0 z-10 -mx-5 sm:-mx-[clamp(28px,3.4vw,44px)] px-5 sm:px-[clamp(28px,3.4vw,44px)] pt-3 pb-[max(12px,env(safe-area-inset-bottom))] sm:pb-6 bg-white border-t border-ink/10" : ""}`}>
+        <button type="submit" disabled={status === "sending"} className={`h-[52px] sm:h-[60px] w-full sm:w-auto justify-center sm:justify-start px-8 font-medium text-[15px] flex items-center gap-3 cursor-pointer disabled:opacity-60 transition-transform duration-300 hover:-translate-y-[2px] ${tone === "dark" ? "bg-paper text-ink" : "bg-ink text-paper"}`}>
           {status === "sending" ? "Sending…" : "Send message"}<span>→</span>
         </button>
         {status === "error" ? <span role="alert" className="text-[14px] underline underline-offset-2">{error}</span> : null}
