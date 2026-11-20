@@ -70,7 +70,7 @@ export function ContactFields({ interest: initial, tone = "dark" }: { interest?:
       <label className="flex flex-col gap-1 sm:col-span-2"><span className="label opacity-60">Message *</span><textarea name="message" rows={5} className={`${field} resize-y`} placeholder="Tell us about your business and what you need" />{err("message")}</label>
       {/* honeypot */}
       <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] w-px h-px opacity-0" />
-      <div className="sm:col-span-2 flex flex-wrap items-center gap-5">
+      <div className={`sm:col-span-2 flex flex-wrap items-center gap-5 ${tone === "light" ? "sticky bottom-0 z-10 -mx-[clamp(22px,3.4vw,44px)] px-[clamp(22px,3.4vw,44px)] -mb-[clamp(24px,3vw,40px)] pt-4 pb-[clamp(16px,2vw,24px)] bg-white border-t border-ink/10" : ""}`}>
         <button type="submit" disabled={status === "sending"} className={`h-[60px] px-8 font-medium text-[15px] flex items-center gap-3 cursor-pointer disabled:opacity-60 transition-transform duration-300 hover:-translate-y-[2px] ${tone === "dark" ? "bg-paper text-ink" : "bg-ink text-paper"}`}>
           {status === "sending" ? "Sending…" : "Send message"}<span>→</span>
         </button>

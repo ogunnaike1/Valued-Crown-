@@ -95,7 +95,10 @@ export default function ContactModal() {
       />
       <div
         ref={panel}
-        className="relative w-full sm:max-w-[640px] max-h-[92vh] overflow-y-auto bg-white text-ink px-[clamp(22px,3.4vw,44px)] pt-[clamp(26px,3vw,40px)] pb-[clamp(24px,3vw,40px)] transition-[opacity,transform] duration-[380ms] ease-std"
+        data-lenis-prevent
+        data-lenis-prevent-wheel
+        data-lenis-prevent-touch
+        className="relative w-full sm:max-w-[640px] max-h-[92vh] max-h-[92dvh] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] bg-white text-ink px-[clamp(22px,3.4vw,44px)] pt-[clamp(26px,3vw,40px)] pb-[clamp(24px,3vw,40px)] transition-[opacity,transform] duration-[380ms] ease-std"
         style={{ opacity: shown ? 1 : 0, transform: shown ? "none" : "translateY(28px) scale(0.98)", borderTop: "3px solid #E27C22" }}
       >
         <button type="button" onClick={close} aria-label="Close" className="absolute right-4 top-4 w-10 h-10 flex items-center justify-center bg-transparent border border-ink/15 text-ink cursor-pointer transition-colors duration-300 hover:bg-ink hover:text-paper">
