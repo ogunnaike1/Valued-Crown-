@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./data/**/*.ts"],
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./data/**/*.ts", "./lib/**/*.ts"],
   theme: {
     extend: {
       colors: {
@@ -13,6 +13,16 @@ const config: Config = {
         "slate-2": "#3A4660",
         grey: "#8A93A6",
         line: "#E3E4E8",
+        // admin back-office tokens (RGB triplets in globals.css, switched by [data-admin-theme])
+        "a-bg": "rgb(var(--a-bg) / <alpha-value>)",
+        "a-surface": "rgb(var(--a-surface) / <alpha-value>)",
+        "a-surface2": "rgb(var(--a-surface2) / <alpha-value>)",
+        "a-line": "rgb(var(--a-line) / <alpha-value>)",
+        "a-fg": "rgb(var(--a-fg) / <alpha-value>)",
+        "a-mute": "rgb(var(--a-mute) / <alpha-value>)",
+        "a-accent": "rgb(var(--a-accent) / <alpha-value>)",
+        "a-accent-fg": "rgb(var(--a-accent-fg) / <alpha-value>)",
+        "a-accent-text": "rgb(var(--a-accent-text) / <alpha-value>)",
       },
       fontFamily: {
         display: ["var(--font-display)", "sans-serif"],

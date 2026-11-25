@@ -22,6 +22,8 @@ function ReadyNow() {
 
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  // The admin back office is its own app shell: no marketing header, footer, cursor or smooth scroll.
+  if (pathname?.startsWith("/admin") || ["/login", "/signup", "/forgot-password"].includes(pathname ?? "")) return <>{children}</>;
   // Product sites (/sites/...) are standalone: they bring their own header and footer, ready to move to a sub-domain.
   if (pathname?.startsWith("/sites")) {
     return (
