@@ -5,6 +5,7 @@ import Logo from "../Logo";
 import LogoMark from "../LogoMark";
 import Reveal from "../Reveal";
 import { siteDomains, type Product } from "@/data/products";
+import { contactInfo } from "@/data/site";
 
 const wrap = "mx-auto w-full max-w-[1240px] px-[clamp(20px,4vw,48px)]";
 const eyebrow = "font-mono text-[11px] tracking-[.22em] uppercase text-[#E27C22]";
@@ -132,7 +133,10 @@ export default function MicroSite({ p }: { p: Product }) {
               </div>
             </div>
           </nav>
+          <div className="flex flex-none items-center gap-2 sm:gap-3">
+            <Link href={`/login?product=${p.slug}`} className="h-12 px-4 sm:px-5 border border-ink/80 text-ink hidden sm:flex flex-none items-center gap-2 whitespace-nowrap text-[15px] font-semibold hover:bg-ink hover:text-paper transition-colors">Client dashboard</Link>
           <Link href={demo} className="h-12 px-5 sm:px-7 bg-ink text-paper flex flex-none items-center gap-2 whitespace-nowrap text-[15px] font-semibold hover:bg-ink-2 transition-colors">Buy now <span aria-hidden="true" style={{ color: orange }}>→</span></Link>
+          </div>
         </div>
       </header>
       <div id="top" />
@@ -304,6 +308,9 @@ export default function MicroSite({ p }: { p: Product }) {
             <span className="font-mono text-[11px] tracking-[.22em] uppercase text-paper/50 mb-2">Company</span>
             <a href={`${mainSite}/`} className="text-[15px] text-paper/80 hover:text-white">Valued Crown Technologies</a>
             <Link href={demo} className="text-[15px] text-paper/80 hover:text-white">Book a demo</Link>
+            <a href={`mailto:${contactInfo.email}`} className="text-[15px] text-paper/80 hover:text-white">{contactInfo.email}</a>
+            <a href={`tel:${contactInfo.phone.replace(/[^\d+]/g, "")}`} className="text-[15px] text-paper/80 hover:text-white">{contactInfo.phone}</a>
+            <span className="text-[15px] text-paper/60 max-w-[26ch] leading-snug">{contactInfo.address}</span>
             <a href={`${mainSite}/privacy`} className="text-[15px] text-paper/80 hover:text-white">Privacy Policy</a>
             <a href={`${mainSite}/terms`} className="text-[15px] text-paper/80 hover:text-white">Terms of Service</a>
           </nav>
