@@ -17,7 +17,7 @@ export const footerColumns = [
 
 /** WhatsApp number in international format, digits only (e.g. "2348012345678"). Set NEXT_PUBLIC_WHATSAPP_NUMBER in .env.local.
  *  While it is empty, the floating button opens the contact pop-up instead. */
-export const whatsappNumber = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "").replace(/\D/g, "");
+export const whatsappNumber = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "2348079922576").replace(/\D/g, "");
 export const whatsappMessage = "Hello Valued Crown Technologies, I'd like to know more about your software.";
 
 /** Social profile links. Set these in .env.local (full URLs). An icon without a link stays visible but inactive. */
@@ -30,7 +30,7 @@ export const socials = [
 
 /** Contact details shown in the footer. Set in .env.local; an empty value falls back to the contact page. */
 export const contactInfo = {
-  address: process.env.NEXT_PUBLIC_ADDRESS || "",
-  phone: process.env.NEXT_PUBLIC_PHONE || "",
-  email: process.env.NEXT_PUBLIC_EMAIL || "",
+  address: process.env.NEXT_PUBLIC_ADDRESS || "No 4 Akinyemi Way, Surulere, Lagos",
+  phone: process.env.NEXT_PUBLIC_PHONE || "0807 992 2576",
+  email: process.env.NEXT_PUBLIC_EMAIL || "info@vctech.ng",
 };

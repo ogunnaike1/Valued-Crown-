@@ -6,6 +6,7 @@ import PageHero from "@/components/PageHero";
 import Faq from "@/components/sections/Faq";
 import ContactForm from "@/components/pages/ContactForm";
 import { products } from "@/data/products";
+import { contactInfo } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -32,6 +33,10 @@ export default function ContactPage() {
                 <span className="font-display font-medium text-[20px] tracking-[-0.02em]">{p.name}</span><span className="opacity-60">{p.industry} →</span>
               </Link>
             ))}
+            <span className="label opacity-60 py-3 mt-8 hair-t">Reach us directly</span>
+            <a href={`mailto:${contactInfo.email}`} className="py-3 hair-t text-[17px] hover:text-crown">{contactInfo.email}</a>
+            <a href={`tel:${contactInfo.phone.replace(/[^\d+]/g, "")}`} className="py-3 hair-t text-[17px] hover:text-crown">Call or WhatsApp · {contactInfo.phone}</a>
+            <span className="py-3 hair-t text-[17px] opacity-80">{contactInfo.address}</span>
           </Reveal>
         <Reveal delay={150}>
           <Suspense fallback={<div className="h-[480px]" />}>
