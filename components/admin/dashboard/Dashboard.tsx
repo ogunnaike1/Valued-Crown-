@@ -64,7 +64,7 @@ export default function Dashboard() {
 
       {/* Hero + mini cards */}
       <div className="grid gap-4 lg:grid-cols-4">
-        <section className="rounded-2xl border border-a-line bg-a-surface p-5 lg:col-span-2" aria-label={`Today's ${w.revenueLabel.toLowerCase()}`}>
+        <Link href={`/admin/${w.primary.path}`} className="block rounded-2xl border border-a-line bg-a-surface p-5 transition-colors hover:border-a-mute/60 lg:col-span-2" aria-label={`Today's ${w.revenueLabel.toLowerCase()}, view ${w.primary.title.toLowerCase()}`}>
           <div className="flex items-center justify-between"><span className="text-[12.5px] font-medium text-a-mute">Today&apos;s {w.revenueLabel.toLowerCase()}</span><DeltaPill value={delta(today.revenue, avgWeekday)} /></div>
           <div className="mt-2 font-display text-[40px] leading-none tabular-nums text-a-fg">{naira(today.revenue)}</div>
           <div className="mt-1.5 text-[12px] text-a-mute">vs average for the last {sameWeekday.length} {now.toLocaleDateString("en-GB", { weekday: "long" })}s · {naira(avgWeekday)}</div>
@@ -72,12 +72,13 @@ export default function Dashboard() {
             {[[`${num(today.txns)} ${wd.sales}`, "receipt"], [`${naira(today.txns ? today.revenue / today.txns : 0)} avg ${wd.sale}`, "wallet"], [`${num(today.items)} ${wd.items}`, "box"]].map(([t, ic]) => <span key={t} className="inline-flex items-center gap-1.5 rounded-full bg-a-surface2 px-3 py-1 text-a-fg"><Icon name={ic as "box"} size={13} className="text-a-mute" />{t}</span>)}
           </div>
           <Sparkline data={spark.map((d) => d.revenue)} className="mt-4 h-16 w-full" />
-        </section>
+          <span className="mt-3 inline-flex items-center gap-1 text-[12.5px] font-semibold text-a-accent-text">View today&apos;s {w.primary.title.toLowerCase()} →</span>
+        </Link>
         <div className="grid gap-4 lg:col-span-2 lg:grid-cols-1 xl:grid-cols-1">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
             <KpiCard label={wd.sales[0].toUpperCase() + wd.sales.slice(1)} value={num(today.txns)} delta={delta(sCur.txns, sPrev.txns)} spark={spark.map((d) => d.txns)} hint={`${range}-day change`} href={`/admin/${w.primary.path}`} />
             <KpiCard label={`New ${wd.customers}`} value={num(today.newCustomers)} delta={delta(sCur.newCustomers, sPrev.newCustomers)} spark={spark.map((d) => d.newCustomers)} hint={`${range}-day change`} href={`/admin/${w.customers.path}`} />
-            <KpiCard label="Refunds" value={naira(today.refunds)} delta={delta(sCur.refunds, sPrev.refunds)} spark={spark.map((d) => d.refunds)} hint={`${range}-day change`} />
+            <KpiCard label="Refunds" value={naira(today.refunds)} delta={delta(sCur.refunds, sPrev.refunds)} spark={spark.map((d) => d.refunds)} hint={`${range}-day change`} href={w.slug === "shop-manager" ? "/admin/returns" : `/admin/${w.primary.path}`} />
           </div>
         </div>
       </div>
