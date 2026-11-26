@@ -74,6 +74,7 @@ export const WORKSPACES: Record<WorkspaceSlug, Workspace> = {
       { label: "Finance & stock", items: [
         { href: "/admin/billing", label: "Billing & folios", icon: "receipt" },
         { href: "/admin/inventory", label: "Inventory & procurement", icon: "box" },
+        { href: "/admin/low-stock", label: "Low stock", icon: "alert" },
         { href: "/admin/reports", label: "Reports", icon: "chart" },
       ] },
       adminGroup(),
@@ -103,6 +104,7 @@ export const WORKSPACES: Record<WorkspaceSlug, Workspace> = {
       { label: "Menu & stock", items: [
         { href: "/admin/menu", label: "Menu", icon: "utensils" },
         { href: "/admin/inventory", label: "Inventory", icon: "box", badge: "alerts" },
+        { href: "/admin/low-stock", label: "Low stock", icon: "alert" },
         { href: "/admin/purchasing", label: "Purchasing & suppliers", icon: "truck" },
       ] },
       { label: "People", items: [
@@ -137,6 +139,7 @@ export const WORKSPACES: Record<WorkspaceSlug, Workspace> = {
       { label: "Catalog & stock", items: [
         { href: "/admin/products", label: "Products", icon: "tag" },
         { href: "/admin/inventory", label: "Inventory control", icon: "box", badge: "alerts" },
+        { href: "/admin/low-stock", label: "Low stock", icon: "alert" },
         { href: "/admin/transfers", label: "Stock transfers", icon: "truck" },
         { href: "/admin/purchasing", label: "Purchasing & suppliers", icon: "layers" },
       ] },
@@ -177,6 +180,7 @@ export const WORKSPACES: Record<WorkspaceSlug, Workspace> = {
       { label: "Finance & stock", items: [
         { href: "/admin/billing", label: "Billing & invoices", icon: "wallet" },
         { href: "/admin/inventory", label: "Supplies inventory", icon: "box" },
+        { href: "/admin/low-stock", label: "Low stock", icon: "alert" },
         { href: "/admin/reports", label: "Reports", icon: "chart" },
       ] },
       adminGroup(),

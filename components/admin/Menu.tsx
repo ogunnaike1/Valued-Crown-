@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /** Minimal accessible popover menu: closes on outside click and Escape. */
-export default function Menu({ button, children, align = "left", width = 260, label }: { button: (open: boolean) => ReactNode; children: (close: () => void) => ReactNode; align?: "left" | "right"; width?: number; label: string }) {
+export default function Menu({ button, children, align = "left", width = 260, label, sheet = false }: { sheet?: boolean; button: (open: boolean) => ReactNode; children: (close: () => void) => ReactNode; align?: "left" | "right"; width?: number; label: string }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -14,10 +14,10 @@ export default function Menu({ button, children, align = "left", width = 260, la
     return () => { document.removeEventListener("mousedown", down); document.removeEventListener("keydown", key); };
   }, [open]);
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className={`relative ${sheet ? "max-sm:static" : ""}`}>
       <button type="button" aria-haspopup="menu" aria-expanded={open} aria-label={label} onClick={() => setOpen((o) => !o)} className="flex items-center rounded-lg">{button(open)}</button>
       {open && (
-        <div role="menu" style={{ width }} className={`a-pop absolute top-[calc(100%+6px)] z-50 max-w-[calc(100vw-24px)] rounded-xl border border-a-line bg-a-surface p-1.5 shadow-xl ${align === "right" ? "right-0" : "left-0"}`}>
+        <div role="menu" style={{ width }} className={`a-pop absolute top-[calc(100%+6px)] ${sheet ? "max-sm:!left-3 max-sm:!right-3 max-sm:!w-auto" : ""} z-50 max-w-[calc(100vw-24px)] rounded-xl border border-a-line bg-a-surface p-1.5 shadow-xl ${align === "right" ? "right-0" : "left-0"}`}>
           {children(() => setOpen(false))}
         </div>
       )}

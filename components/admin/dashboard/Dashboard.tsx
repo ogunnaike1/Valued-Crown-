@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useAdmin, DEMO_USER } from "@/lib/admin/context";
-import { activity, daily, heatmap, ops, staff, sum, topItems } from "@/lib/admin/seed";
+import { activity, daily, lowStock, heatmap, ops, staff, sum, topItems } from "@/lib/admin/seed";
 import { compactNaira, delta, dayShort, greeting, naira, num, timeAgo } from "@/lib/admin/format";
 import { Badge, Button, Card, DeltaPill, EmptyState, KpiCard, PageHeader, Segmented, cx } from "../ui";
 import { CompareChart, Donut, Heatmap, Sparkline, StackBar } from "../charts";
@@ -32,6 +32,7 @@ export default function Dashboard() {
   const cats = w.categories.map((c) => ({ name: c.name, value: c.share }));
   const top = useMemo(() => topItems(w.slug, bid, range), [w.slug, bid, range]);
   const feed = useMemo(() => activity(w.slug, bid), [w.slug, bid]);
+  const lowCount = useMemo(() => lowStock(w.slug).filter((r) => !branch || r.branch === branch.id).length, [w.slug, branch]);
   const team = useMemo(() => staff(w.slug, bid), [w.slug, bid]);
   const heat = useMemo(() => heatmap(w.slug, bid), [w.slug, bid]);
   const spark = days.slice(-14);
@@ -43,7 +44,7 @@ export default function Dashboard() {
       <PageHeader
         title={`${greeting(now)}, ${DEMO_USER.name.split(" ")[0]}`}
         meta={<span className="flex flex-wrap items-center gap-x-3 gap-y-1"><span className="inline-flex items-center gap-1.5 rounded-full a-tone-green px-2 py-0.5 text-[11px] font-bold"><i className="a-live h-1.5 w-1.5 rounded-full bg-current" />Live</span><span>{now.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })} · {now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}</span><span>{onDuty} staff on duty</span><span>{w.name} · {branch ? branch.name : "All branches"}</span></span>}
-        actions={<Segmented label="Date range" value={String(range) as "7" | "14" | "30"} onChange={(v) => setRange(Number(v) as Range)} options={[{ value: "7", label: "7 days" }, { value: "14", label: "14 days" }, { value: "30", label: "30 days" }]} />}
+        actions={<div className="flex flex-wrap items-center gap-2"><Button href="/admin/low-stock" icon="alert">Low stock{lowCount > 0 ? ` (${lowCount})` : ""}</Button><Segmented label="Date range" value={String(range) as "7" | "14" | "30"} onChange={(v) => setRange(Number(v) as Range)} options={[{ value: "7", label: "7 days" }, { value: "14", label: "14 days" }, { value: "30", label: "30 days" }]} /></div>}
       />
 
       {!hideChecklist && (
@@ -86,11 +87,11 @@ export default function Dashboard() {
         <div className="mb-2 flex items-center justify-between"><h2 className="font-display text-[15px] text-a-fg">Operations now</h2><span className="text-[12px] text-a-mute">Refreshes every 30s · updated {now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}</span></div>
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {o.tiles.map((t) => (
-            <div key={t.label} className={cx("rounded-2xl border bg-a-surface p-4", t.tone === "alert" ? "border-[rgb(var(--t-amber)/0.45)]" : "border-a-line")}>
-              <div className="flex items-center justify-between text-[12px] font-medium text-a-mute">{t.label}{t.tone === "alert" && <Icon name="alert" size={14} className="text-[rgb(var(--t-amber))]" />}</div>
+            <Link key={t.label} href={t.href ?? "/admin"} className={cx("group block rounded-2xl border bg-a-surface p-4 transition-colors hover:border-a-mute/60 hover:bg-a-surface2/50", t.tone === "alert" ? "border-[rgb(var(--t-amber)/0.45)]" : "border-a-line")}>
+              <div className="flex items-center justify-between text-[12px] font-medium text-a-mute"><span>{t.label}</span>{t.tone === "alert" ? <Icon name="alert" size={14} className="text-[rgb(var(--t-amber))]" /> : <Icon name="right" size={14} className="opacity-0 transition-opacity group-hover:opacity-100" />}</div>
               <div className="mt-2 font-display text-[28px] leading-none tabular-nums text-a-fg">{t.value}</div>
-              <div className="mt-1.5 text-[11.5px] text-a-mute">{t.hint}</div>
-            </div>
+              <div className="mt-1.5 flex items-center justify-between gap-2 text-[11.5px] text-a-mute"><span>{t.hint}</span><span className="flex-none font-semibold text-a-accent-text opacity-0 transition-opacity group-hover:opacity-100">View →</span></div>
+            </Link>
           ))}
         </div>
       </div>
@@ -100,7 +101,7 @@ export default function Dashboard() {
         <Card className="xl:col-span-2" title="Performance" action={<span className="flex items-center gap-4 text-[12px] text-a-mute"><span className="flex items-center gap-1.5"><i className="h-0.5 w-4 rounded" style={{ background: "var(--c1)" }} />This period</span><span className="flex items-center gap-1.5"><i className="h-0 w-4 border-t-2 border-dashed" style={{ borderColor: "var(--c5)" }} />Previous</span></span>}>
           <div className="mb-3 grid grid-cols-3 gap-3">
             {[["Net sales", compactNaira(sCur.revenue - sCur.refunds), delta(sCur.revenue, sPrev.revenue)], [`Avg ${wd.sale}`, naira(sCur.txns ? sCur.revenue / sCur.txns : 0), delta(sCur.revenue / (sCur.txns || 1), sPrev.revenue / (sPrev.txns || 1))], ["Gross margin", `${margin(sCur).toFixed(1)}%`, delta(margin(sCur), margin(sPrev))]].map(([l, v, d]) => (
-              <div key={l as string}><div className="text-[12px] text-a-mute">{l as string}</div><div className="font-display text-[20px] tabular-nums text-a-fg">{v as string}</div><DeltaPill value={d as number | null} /></div>
+              <div key={l as string}><div className="text-[12px] text-a-mute">{l as string}</div><div className="font-display text-[16px] tabular-nums text-a-fg sm:text-[20px]">{v as string}</div><DeltaPill value={d as number | null} /></div>
             ))}
           </div>
           <CompareChart labels={cur.map((d) => dayShort(d.date))} current={cur.map((d) => d.revenue)} previous={prev.map((d) => d.revenue)} format={naira} />

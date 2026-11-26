@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import Logo from "../Logo";
 import LogoMark from "../LogoMark";
+import MobileNav from "./MobileNav";
 import Reveal from "../Reveal";
 import { siteDomains, type Product } from "@/data/products";
 import { contactInfo } from "@/data/site";
@@ -73,6 +74,7 @@ export default function MicroSite({ p }: { p: Product }) {
   const demo = `/contact?interest=${p.slug}`;
   const docHref = `/docs/${p.slug}.docx`;
   const domain = siteDomains[p.slug];
+  const loginHref = `/login?product=${p.slug}`;
   const mainSite = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
   const showcase = p.benefits.slice(0, 2);
   const reasons = p.benefits.slice(2, 5);
@@ -87,13 +89,13 @@ export default function MicroSite({ p }: { p: Product }) {
     <div className="bg-paper text-ink">
       {/* nav */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-line">
-        <div className={`${wrap} h-[76px] flex items-center justify-between gap-6`}>
-          <a href="#top" className="flex-none text-ink" aria-label="Valued Crown Technologies, back to top"><Logo tone="ink" /></a>
-          <nav aria-label="Product" className="hidden lg:flex items-center gap-1 text-[15px] font-medium">
-            <a href="#top" className="px-4 h-10 flex items-center opacity-80 hover:opacity-100">Overview</a>
+        <div className={`${wrap} h-[68px] sm:h-[76px] flex items-center justify-between gap-3 sm:gap-6`}>
+          <a href="#top" className="flex-none min-w-0 text-ink max-sm:scale-[.85] max-sm:origin-left" aria-label="Valued Crown Technologies, back to top"><Logo tone="ink" /></a>
+          <nav aria-label="Product" className="hidden lg:flex items-center gap-0 xl:gap-1 text-[15px] font-medium whitespace-nowrap">
+            <a href="#top" className="px-3 xl:px-4 h-10 flex items-center whitespace-nowrap opacity-80 hover:opacity-100">Overview</a>
 
             <div className="relative group">
-              <a href="#features" className="px-4 h-10 flex items-center gap-1 opacity-80 group-hover:opacity-100">Features <span aria-hidden="true" className="text-[10px]">▾</span></a>
+              <a href="#features" className="px-3 xl:px-4 h-10 flex items-center whitespace-nowrap gap-1 opacity-80 group-hover:opacity-100">Features <span aria-hidden="true" className="text-[10px]">▾</span></a>
               <div className={`${drop} w-[580px]`}>
                 <div className="grid grid-cols-[1fr_200px] bg-white border border-line rounded-2xl shadow-[0_30px_60px_-15px_rgba(4,20,51,.25)] overflow-hidden">
                   <div className="p-5 grid grid-cols-2 gap-x-4 gap-y-1 content-start">
@@ -110,7 +112,7 @@ export default function MicroSite({ p }: { p: Product }) {
             </div>
 
             <div className="relative group">
-              <a href="#why" className="px-4 h-10 flex items-center gap-1 opacity-80 group-hover:opacity-100">Why choose? <span aria-hidden="true" className="text-[10px]">▾</span></a>
+              <a href="#why" className="px-3 xl:px-4 h-10 flex items-center whitespace-nowrap gap-1 opacity-80 group-hover:opacity-100">Why choose? <span aria-hidden="true" className="text-[10px]">▾</span></a>
               <div className={`${drop} w-[340px]`}>
                 <div className="bg-white border border-line rounded-2xl shadow-[0_30px_60px_-15px_rgba(4,20,51,.25)] p-5 flex flex-col gap-1">
                   {reasons.map((r) => <a key={r.title} href="#why" className="py-2 text-[14.5px] opacity-80 hover:opacity-100 hover:text-[#E27C22]">{r.title}</a>)}
@@ -120,10 +122,10 @@ export default function MicroSite({ p }: { p: Product }) {
               </div>
             </div>
 
-            <a href={docHref} download className="px-4 h-10 flex items-center opacity-80 hover:opacity-100">Download</a>
+            <a href={docHref} download className="px-3 xl:px-4 h-10 flex items-center whitespace-nowrap opacity-80 hover:opacity-100">Download</a>
 
             <div className="relative group">
-              <a href="#features" className="px-4 h-10 flex items-center gap-1 opacity-80 group-hover:opacity-100">Resources <span aria-hidden="true" className="text-[10px]">▾</span></a>
+              <a href="#features" className="px-3 xl:px-4 h-10 flex items-center whitespace-nowrap gap-1 opacity-80 group-hover:opacity-100">Resources <span aria-hidden="true" className="text-[10px]">▾</span></a>
               <div className={`${drop} w-[320px]`}>
                 <div className="bg-white border border-line rounded-2xl shadow-[0_30px_60px_-15px_rgba(4,20,51,.25)] p-4 flex flex-col">
                   <a href={docHref} download className="p-3 rounded-lg hover:bg-paper"><span className="block font-semibold text-[14.5px]">Documentation</span><span className="block text-[13px] opacity-60">Download the {p.name} guide</span></a>
@@ -134,8 +136,12 @@ export default function MicroSite({ p }: { p: Product }) {
             </div>
           </nav>
           <div className="flex flex-none items-center gap-2 sm:gap-3">
-            <Link href={`/login?product=${p.slug}`} className="h-12 px-4 sm:px-5 border border-ink/80 text-ink hidden sm:flex flex-none items-center gap-2 whitespace-nowrap text-[15px] font-semibold hover:bg-ink hover:text-paper transition-colors">Client dashboard</Link>
-          <Link href={demo} className="h-12 px-5 sm:px-7 bg-ink text-paper flex flex-none items-center gap-2 whitespace-nowrap text-[15px] font-semibold hover:bg-ink-2 transition-colors">Buy now <span aria-hidden="true" style={{ color: orange }}>→</span></Link>
+            <Link href={loginHref} className="h-11 sm:h-12 px-3 sm:px-5 border border-ink/80 text-ink flex flex-none items-center whitespace-nowrap text-[13px] sm:text-[15px] font-semibold hover:bg-ink hover:text-paper transition-colors"><span className="sm:hidden">Dashboard</span><span className="hidden sm:inline">Client dashboard</span></Link>
+            <Link href={demo} className="hidden sm:flex h-12 px-5 xl:px-7 bg-ink text-paper flex-none items-center gap-2 whitespace-nowrap text-[15px] font-semibold hover:bg-ink-2 transition-colors">Buy now <span aria-hidden="true" style={{ color: orange }}>→</span></Link>
+            <MobileNav buyHref={demo} loginHref={loginHref} items={[
+              { label: "Overview", href: "#top" }, { label: "Features", href: "#features" }, { label: "Why choose?", href: "#why" },
+              { label: "Who it's for", href: "#who" }, { label: "Download", href: docHref, download: true }, { label: "Book a demo / training", href: demo, internal: true },
+            ]} />
           </div>
         </div>
       </header>

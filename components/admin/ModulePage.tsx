@@ -3,8 +3,9 @@
 import { Suspense, useMemo } from "react";
 import { useAdmin } from "@/lib/admin/context";
 import { BRANCHES } from "@/lib/admin/config";
-import { customerRows, records, type CustomerRow, type Row } from "@/lib/admin/seed";
+import { customerRows, lowStock, records, type CustomerRow, type Row, type StockRow } from "@/lib/admin/seed";
 import { dateShort, naira } from "@/lib/admin/format";
+import { GenericList, ReportsPage, SettingsPage } from "./GenericPages";
 import DataTable, { type Column, type Query } from "./DataTable";
 import { Badge, Button, Card, EmptyState, KpiCard, PageHeader, Skeleton } from "./ui";
 
@@ -55,6 +56,40 @@ function PrimaryList() {
   );
 }
 
+function LowStockList() {
+  const { workspace: w, branch, toast } = useAdmin();
+  const all = useMemo(() => lowStock(w.slug).filter((r) => !branch || r.branch === branch.id).sort((a, b) => a.onHand / a.reorder - b.onHand / b.reorder), [w.slug, branch]);
+  const out = all.filter((r) => r.status === "Out of stock").length;
+  const columns: Column<StockRow>[] = [
+    { key: "name", header: "Item", sortable: true, render: (r) => <span><span className="block font-medium text-a-fg">{r.name}</span><span className="text-[11.5px] text-a-mute">{r.sku}</span></span>, csv: (r) => r.name },
+    { key: "category", header: "Category", sortable: true, render: (r) => r.category, csv: (r) => r.category },
+    { key: "branch", header: "Branch", render: (r) => branchName(r.branch), csv: (r) => branchName(r.branch) },
+    { key: "onHand", header: "On hand", sortable: true, align: "right", render: (r) => `${r.onHand} ${r.unit}`, csv: (r) => r.onHand },
+    { key: "reorder", header: "Reorder at", sortable: true, align: "right", render: (r) => `${r.reorder} ${r.unit}`, csv: (r) => r.reorder },
+    { key: "supplier", header: "Supplier", render: (r) => r.supplier, csv: (r) => r.supplier },
+    { key: "status", header: "Status", sortable: true, render: (r) => <Badge tone={r.status === "Out of stock" ? "red" : "amber"}>{r.status}</Badge>, csv: (r) => r.status },
+  ];
+  return (
+    <>
+      <PageHeader title="Low stock" meta={`${w.name} · ${branch ? branch.name : "all branches"}`} actions={<Button variant="primary" icon="truck" onClick={() => toast("Purchase orders are wired in the next phase")}>Reorder all</Button>} />
+      <div className="mb-4 grid grid-cols-2 gap-4 lg:grid-cols-3">
+        <KpiCard label="Items to reorder" value={String(all.length)} />
+        <KpiCard label="Out of stock" value={String(out)} href="/admin/low-stock?status=Out%20of%20stock" />
+        <KpiCard label="Running low" value={String(all.length - out)} href="/admin/low-stock?status=Low%20stock" />
+      </div>
+      <DataTable<StockRow>
+        id={`${w.slug}-low-stock`} exportName={`${w.slug}-low-stock`} columns={columns} rowId={(r) => r.id} deps={[all]}
+        placeholder="Search item, SKU or supplier…"
+        filters={[{ key: "status", label: "Status", options: ["Out of stock", "Low stock"] }, { key: "category", label: "Category", options: Array.from(new Set(all.map((r) => r.category))) }, ...(branch ? [] : [{ key: "branch", label: "Branch", options: BRANCHES.map((b) => branchName(b.id)) }])]}
+        fetchRows={(q) => paginate(all, q, (r, s) => r.name.toLowerCase().includes(s) || r.sku.toLowerCase().includes(s) || r.supplier.toLowerCase().includes(s), { name: (r) => r.name, category: (r) => r.category, onHand: (r) => r.onHand, reorder: (r) => r.reorder, status: (r) => r.status }, { status: (r) => r.status, category: (r) => r.category, branch: (r) => branchName(r.branch) })}
+        emptyTitle="Nothing is running low. Nice."
+        drawerTitle={(r) => r.name}
+        drawer={(r) => (<><div className="mb-3"><Badge tone={r.status === "Out of stock" ? "red" : "amber"}>{r.status}</Badge></div><Field k="SKU" v={r.sku} /><Field k="Category" v={r.category} /><Field k="Branch" v={branchName(r.branch)} /><Field k="On hand" v={`${r.onHand} ${r.unit}`} /><Field k="Reorder level" v={`${r.reorder} ${r.unit}`} /><Field k="Suggested order" v={`${Math.max(r.reorder * 2 - r.onHand, 1)} ${r.unit}`} /><Field k="Supplier" v={r.supplier} /></>)}
+      />
+    </>
+  );
+}
+
 function CustomerList() {
   const { workspace: w, branch } = useAdmin();
   const all = useMemo(() => customerRows(w.slug).filter((r) => !branch || r.branch === branch.id), [w.slug, branch]);
@@ -97,12 +132,7 @@ export default function ModulePage({ slug }: { slug: string[] }) {
   if (!ready) return <Skeleton className="h-64 w-full" />;
   return (
     <Suspense fallback={<Skeleton className="h-64 w-full" />}>
-      {path === w.primary.path ? <PrimaryList /> : path === w.customers.path ? <CustomerList /> : (
-        <>
-          <PageHeader title={item?.label ?? path.replace(/-/g, " ").replace(/^./, (c) => c.toUpperCase())} meta={w.name} />
-          <Card pad={false}><EmptyState icon={item?.icon ?? "layers"} title={item ? `${item.label} is part of ${w.name} and is scheduled for a later build phase. The shell, navigation and shared tables it will use are ready.` : "This page doesn't exist for this product."} action={<Button href="/admin" variant="primary" size="sm">Back to dashboard</Button>} /></Card>
-        </>
-      )}
+      {path === "low-stock" ? <LowStockList /> : path === w.primary.path ? <PrimaryList /> : path === w.customers.path ? <CustomerList /> : path === "settings" ? <SettingsPage /> : path === "reports" ? <ReportsPage /> : <GenericList path={path} />}
     </Suspense>
   );
 }

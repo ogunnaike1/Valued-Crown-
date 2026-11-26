@@ -72,22 +72,22 @@ export function ops(slug: WorkspaceSlug, branch: string) {
   if (slug === "hotel-manager") {
     const rooms = n(28), occ = Math.round(rooms * (0.62 + r() * 0.2)), dirty = n(5), ooo = Math.max(1, Math.round(rooms * 0.04));
     mix = [occ, rooms - occ - dirty - ooo, dirty, ooo];
-    tiles = [{ label: l[0], value: `${Math.round((occ / rooms) * 100)}%`, hint: `${occ} of ${rooms} rooms` }, { label: l[1], value: String(n(6)), hint: "expected check-ins" }, { label: l[2], value: String(n(5)), hint: "expected check-outs" }, { label: l[3], value: String(dirty), tone: "alert", hint: "awaiting housekeeping" }];
+    tiles = [{ label: l[0], value: `${Math.round((occ / rooms) * 100)}%`, hint: `${occ} of ${rooms} rooms`, href: "/admin/reservations?status=Checked%20in"}, { label: l[1], value: String(n(6)), hint: "expected check-ins", href: "/admin/front-desk?type=Check-in"}, { label: l[2], value: String(n(5)), hint: "expected check-outs", href: "/admin/front-desk?type=Check-out"}, { label: l[3], value: String(dirty), tone: "alert", hint: "awaiting housekeeping", href: "/admin/housekeeping?status=Dirty" }];
     attention = [{ name: "Room 204 · Deluxe King", detail: "Awaiting cleaning after checkout", value: "Dirty", sev: "amber" }, { name: "Room 112 · Standard Twin", detail: "AC not cooling (maintenance request)", value: "Out of order", sev: "red" }, { name: "Room 307 · Executive Suite", detail: "Awaiting cleaning after checkout", value: "Dirty", sev: "amber" }, { name: "Room 118 · Classic Double", detail: "Plumbing request logged", value: "Open", sev: "amber" }];
   } else if (slug === "restaurant-manager") {
     const tbl = n(14), occ = Math.round(tbl * (0.4 + r() * 0.3)), res = n(3), dirty = n(1);
     mix = [occ, Math.max(0, tbl - occ - res - dirty), res, dirty];
-    tiles = [{ label: l[0], value: String(Math.max(0, tbl - occ - res - dirty)), hint: `${tbl} tables total` }, { label: l[1], value: String(n(5)), hint: "tickets on the kitchen display" }, { label: l[2], value: `${Math.round(11 + r() * 8)} min`, hint: "order → ready" }, { label: l[3], value: String(n(4)), tone: "alert", hint: "at or below reorder level" }];
+    tiles = [{ label: l[0], value: String(Math.max(0, tbl - occ - res - dirty)), hint: `${tbl} tables total`, href: "/admin/tables?status=Available"}, { label: l[1], value: String(n(5)), hint: "tickets on the kitchen display", href: "/admin/kitchen"}, { label: l[2], value: `${Math.round(11 + r() * 8)} min`, hint: "order → ready", href: "/admin/kitchen?sort=prep&dir=desc"}, { label: l[3], value: String(n(4)), tone: "alert", hint: "at or below reorder level", href: "/admin/low-stock" }];
     attention = [{ name: "Palm oil (25L)", detail: "Reorder level 6", value: "2 left", sev: "red" }, { name: "Fresh tilapia (kg)", detail: "Reorder level 20", value: "9 left", sev: "amber" }, { name: "Basmati rice (50kg)", detail: "Reorder level 4", value: "3 left", sev: "amber" }, { name: "Chapman syrup (L)", detail: "Reorder level 10", value: "0 left", sev: "red" }];
   } else if (slug === "shop-manager") {
     const inS = n(520), low = n(24), out = n(8);
     mix = [inS, low, out];
-    tiles = [{ label: l[0], value: String(low), tone: "alert", hint: `${out} out of stock`, href: "/admin/inventory" }, { label: l[1], value: String(n(3)), hint: "awaiting delivery" }, { label: l[2], value: String(n(3)), hint: "ringing sales now" }, { label: l[3], value: String(n(1)), hint: "between branches" }];
+    tiles = [{ label: l[0], value: String(low), tone: "alert", hint: `${out} out of stock`, href: "/admin/low-stock" }, { label: l[1], value: String(n(3)), hint: "awaiting delivery", href: "/admin/purchasing?status=Ordered"}, { label: l[2], value: String(n(3)), hint: "ringing sales now", href: "/admin/staff?status=On%20duty"}, { label: l[3], value: String(n(1)), hint: "between branches", href: "/admin/transfers?status=In%20transit" }];
     attention = [{ name: "Peak Milk 400g", detail: "Reorder at 40", value: "12 of 40", sev: "red" }, { name: "Golden Penny Rice 5kg", detail: "Reorder at 30", value: "18 of 30", sev: "amber" }, { name: "Dettol 500ml", detail: "Reorder at 25", value: "0 of 25", sev: "red" }, { name: "Indomie Carton (40)", detail: "Reorder at 20", value: "14 of 20", sev: "amber" }];
   } else {
     const rcv = n(14), wsh = n(18), irn = n(12), rdy = n(16);
     mix = [rcv, wsh, irn, rdy];
-    tiles = [{ label: l[0], value: String(rcv + wsh + irn), hint: "sorting, washing, ironing" }, { label: l[1], value: String(rdy), hint: "waiting for customers" }, { label: l[2], value: String(n(9)), hint: "driver routes assigned" }, { label: l[3], value: String(n(3)), tone: "alert", hint: "past promised date" }];
+    tiles = [{ label: l[0], value: String(rcv + wsh + irn), hint: "sorting, washing, ironing", href: "/admin/workflow"}, { label: l[1], value: String(rdy), hint: "waiting for customers", href: "/admin/garments?status=Ready"}, { label: l[2], value: String(n(9)), hint: "driver routes assigned", href: "/admin/deliveries?status=Scheduled"}, { label: l[3], value: String(n(3)), tone: "alert", hint: "past promised date", href: "/admin/orders" }];
     attention = [{ name: "LDY-2611-0187 · Mrs. Okafor", detail: "Pickup promised yesterday", value: "1 day late", sev: "red" }, { name: "LDY-2611-0192 · Mr. Bello", detail: "Delivery promised today 4pm", value: "Due today", sev: "amber" }, { name: "LDY-2611-0179 · Ms. Adeyemi", detail: "Ready for pickup, not collected", value: "3 days", sev: "amber" }, { name: "LDY-2611-0171 · Mr. Eze", detail: "Delivery failed: no answer", value: "Rescheduling", sev: "red" }];
   }
   return { tiles, mix, attention };
@@ -161,4 +161,48 @@ export function customerRows(slug: WorkspaceSlug): CustomerRow[] {
     const visits = 1 + Math.floor(r() * 40);
     return { id: String(i + 1), code: `CUS-${String(i + 1).padStart(4, "0")}`, name: NAMES[i % NAMES.length].replace(/ .*/, "") + " " + ["Adewale", "Okafor", "Bello", "Eze", "Balogun", "Ibe", "Danjuma", "Nnamdi", "Lawal", "Ojo"][Math.floor(r() * 10)], phone: `080${Math.floor(10000000 + r() * 89999999)}`, tier: tiers[visits > 28 ? 2 : visits > 12 ? 1 : 0], visits, spend: Math.round(visits * WORKSPACES[slug].base.ticket * (0.6 + r()) / 100) * 100, outstanding: r() > 0.8 ? Math.round(r() * 40) * 1000 : 0, status: r() > 0.1 ? "Active" : "Inactive", branch: BRANCHES[Math.floor(r() * 3)].id };
   });
+}
+
+export interface StockRow { id: string; name: string; sku: string; category: string; branch: string; onHand: number; reorder: number; unit: string; supplier: string; status: "Out of stock" | "Low stock" }
+
+const STOCK_CATALOG: Record<WorkspaceSlug, { category: string; unit: string; items: string[] }[]> = {
+  "hotel-manager": [
+    { category: "Housekeeping", unit: "pcs", items: ["Bath towels", "Bed sheets (king)", "Pillow cases", "Hand towels", "Bathrobes"] },
+    { category: "Amenities", unit: "pcs", items: ["Shampoo sachets", "Bath soap bars", "Toothbrush kits", "Slippers", "Tea & coffee sachets"] },
+    { category: "Cleaning", unit: "L", items: ["Floor cleaner", "Glass cleaner", "Bleach", "Air freshener"] },
+    { category: "Minibar", unit: "pcs", items: ["Bottled water 50cl", "Soft drinks", "Snack packs"] },
+  ],
+  "restaurant-manager": [
+    { category: "Produce", unit: "kg", items: ["Fresh tilapia", "Tomatoes", "Onions", "Scotch bonnet pepper", "Plantain", "Chicken (whole)"] },
+    { category: "Dry goods", unit: "kg", items: ["Basmati rice", "Flour", "Semovita", "Sugar", "Spaghetti"] },
+    { category: "Oils & sauces", unit: "L", items: ["Palm oil", "Vegetable oil", "Tomato paste"] },
+    { category: "Beverages", unit: "pcs", items: ["Chapman mix", "Bottled water", "Malt drinks", "Orange juice"] },
+  ],
+  "shop-manager": [
+    { category: "Groceries", unit: "pcs", items: ["Peak Milk 400g", "Golden Penny Rice 5kg", "Indomie carton", "Dangote Sugar 1kg", "Titus Sardine", "Kings Oil 2L"] },
+    { category: "Household", unit: "pcs", items: ["Dettol 500ml", "Omo detergent 1kg", "Morning Fresh 500ml", "Tissue pack"] },
+    { category: "Beverages", unit: "pcs", items: ["Coca-Cola 50cl", "Fanta 50cl", "Eva water 75cl", "Milo 400g"] },
+    { category: "Personal care", unit: "pcs", items: ["Closeup toothpaste", "Pears soap", "Vaseline 250ml"] },
+  ],
+  "laundry-manager": [
+    { category: "Chemicals", unit: "L", items: ["Detergent", "Fabric softener", "Stain remover", "Bleach"] },
+    { category: "Packaging", unit: "pcs", items: ["Garment covers", "Hangers", "Laundry bags", "Tags & labels", "Packing tape"] },
+    { category: "Consumables", unit: "pcs", items: ["Steam iron filters", "Lint rollers", "Spray starch"] },
+  ],
+};
+
+/** Every stock line at or below its reorder level, across all branches (filter by branch in the UI). */
+export function lowStock(slug: WorkspaceSlug): StockRow[] {
+  const r = rng(`${slug}:lowstock`);
+  const suppliers = ["Lagos Wholesale Ltd", "Zenith Supplies", "Alaba Distributors", "Prime Traders", "Ikeja Cash & Carry"];
+  const out: StockRow[] = [];
+  let n = 1;
+  for (const b of BRANCHES) for (const g of STOCK_CATALOG[slug]) for (const name of g.items) {
+    if (r() > 0.55) continue; // only some lines are low at a given branch
+    const reorder = [6, 10, 12, 20, 25, 30, 40][Math.floor(r() * 7)];
+    const onHand = r() < 0.25 ? 0 : Math.max(1, Math.floor(reorder * (0.1 + r() * 0.85)));
+    out.push({ id: `${slug}-${n}`, name, sku: `SKU-${String(1000 + n)}`, category: g.category, branch: b.id, onHand, reorder, unit: g.unit, supplier: suppliers[Math.floor(r() * suppliers.length)], status: onHand === 0 ? "Out of stock" : "Low stock" });
+    n++;
+  }
+  return out;
 }
