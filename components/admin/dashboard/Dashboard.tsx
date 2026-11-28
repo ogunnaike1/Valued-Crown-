@@ -54,7 +54,7 @@ export default function Dashboard() {
               <div className="font-display text-[15px] text-a-fg">Get your {w.name.split(" ")[0].toLowerCase()} ready</div>
               <div className="mt-2 flex items-center gap-3"><div className="h-1.5 flex-1 overflow-hidden rounded-full bg-a-surface2"><div className="h-full rounded-full bg-a-accent" style={{ width: `${(done / w.checklist.length) * 100}%` }} /></div><span className="text-[12px] tabular-nums text-a-mute">{done} of {w.checklist.length} done</span></div>
             </div>
-            <ul className="grid flex-[2] grid-cols-1 gap-x-6 gap-y-1.5 text-[13px] sm:grid-cols-2">
+            <ul className="grid min-w-[260px] flex-[2] grid-cols-1 gap-x-6 gap-y-1.5 text-[13px] sm:grid-cols-2">
               {w.checklist.map((c, i) => <li key={c} className={cx("flex items-center gap-2", i < done ? "text-a-mute line-through" : "text-a-fg")}><span className={cx("grid h-4 w-4 flex-none place-items-center rounded-full border", i < done ? "border-transparent bg-[rgb(var(--t-green))] text-white" : "border-a-line")}>{i < done && <Icon name="check" size={10} strokeWidth={3} />}</span>{c}</li>)}
             </ul>
             <Button variant="ghost" size="sm" onClick={() => { setHide(true); try { localStorage.setItem("vc-admin-checklist-" + w.slug, "1"); } catch { /* ignore */ } }} aria-label="Dismiss checklist" icon="x">Dismiss</Button>
@@ -66,7 +66,7 @@ export default function Dashboard() {
       <div className="grid gap-4 lg:grid-cols-4">
         <Link href={`/admin/${w.primary.path}`} className="block rounded-2xl border border-a-line bg-a-surface p-5 transition-colors hover:border-a-mute/60 lg:col-span-2" aria-label={`Today's ${w.revenueLabel.toLowerCase()}, view ${w.primary.title.toLowerCase()}`}>
           <div className="flex items-center justify-between"><span className="text-[12.5px] font-medium text-a-mute">Today&apos;s {w.revenueLabel.toLowerCase()}</span><DeltaPill value={delta(today.revenue, avgWeekday)} /></div>
-          <div className="mt-2 font-display text-[40px] leading-none tabular-nums text-a-fg">{naira(today.revenue)}</div>
+          <div className="mt-2 break-words font-display text-[32px] leading-none tabular-nums text-a-fg sm:text-[40px]">{naira(today.revenue)}</div>
           <div className="mt-1.5 text-[12px] text-a-mute">vs average for the last {sameWeekday.length} {now.toLocaleDateString("en-GB", { weekday: "long" })}s · {naira(avgWeekday)}</div>
           <div className="mt-4 flex flex-wrap gap-2 text-[12px]">
             {[[`${num(today.txns)} ${wd.sales}`, "receipt"], [`${naira(today.txns ? today.revenue / today.txns : 0)} avg ${wd.sale}`, "wallet"], [`${num(today.items)} ${wd.items}`, "box"]].map(([t, ic]) => <span key={t} className="inline-flex items-center gap-1.5 rounded-full bg-a-surface2 px-3 py-1 text-a-fg"><Icon name={ic as "box"} size={13} className="text-a-mute" />{t}</span>)}
@@ -85,12 +85,12 @@ export default function Dashboard() {
 
       {/* Operations (real-time) */}
       <div>
-        <div className="mb-2 flex items-center justify-between"><h2 className="font-display text-[15px] text-a-fg">Operations now</h2><span className="text-[12px] text-a-mute">Refreshes every 30s · updated {now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}</span></div>
+        <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1"><h2 className="font-display text-[15px] text-a-fg">Operations now</h2><span className="text-[12px] text-a-mute">Refreshes every 30s · updated {now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}</span></div>
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {o.tiles.map((t) => (
             <Link key={t.label} href={t.href ?? "/admin"} className={cx("group block rounded-2xl border bg-a-surface p-4 transition-colors hover:border-a-mute/60 hover:bg-a-surface2/50", t.tone === "alert" ? "border-[rgb(var(--t-amber)/0.45)]" : "border-a-line")}>
               <div className="flex items-center justify-between text-[12px] font-medium text-a-mute"><span>{t.label}</span>{t.tone === "alert" ? <Icon name="alert" size={14} className="text-[rgb(var(--t-amber))]" /> : <Icon name="right" size={14} className="opacity-0 transition-opacity group-hover:opacity-100" />}</div>
-              <div className="mt-2 font-display text-[28px] leading-none tabular-nums text-a-fg">{t.value}</div>
+              <div className="mt-2 break-words font-display text-[24px] leading-none tabular-nums text-a-fg sm:text-[28px]">{t.value}</div>
               <div className="mt-1.5 flex items-center justify-between gap-2 text-[11.5px] text-a-mute"><span>{t.hint}</span><span className="flex-none font-semibold text-a-accent-text opacity-0 transition-opacity group-hover:opacity-100">View →</span></div>
             </Link>
           ))}
@@ -99,10 +99,10 @@ export default function Dashboard() {
 
       {/* Performance */}
       <div className="grid gap-4 xl:grid-cols-3">
-        <Card className="xl:col-span-2" title="Performance" action={<span className="flex items-center gap-4 text-[12px] text-a-mute"><span className="flex items-center gap-1.5"><i className="h-0.5 w-4 rounded" style={{ background: "var(--c1)" }} />This period</span><span className="flex items-center gap-1.5"><i className="h-0 w-4 border-t-2 border-dashed" style={{ borderColor: "var(--c5)" }} />Previous</span></span>}>
+        <Card className="xl:col-span-2" title="Performance" action={<span className="flex flex-wrap items-center justify-end gap-x-4 gap-y-1 text-[12px] text-a-mute"><span className="flex items-center gap-1.5"><i className="h-0.5 w-4 rounded" style={{ background: "var(--c1)" }} />This period</span><span className="flex items-center gap-1.5"><i className="h-0 w-4 border-t-2 border-dashed" style={{ borderColor: "var(--c5)" }} />Previous</span></span>}>
           <div className="mb-3 grid grid-cols-3 gap-3">
             {[["Net sales", compactNaira(sCur.revenue - sCur.refunds), delta(sCur.revenue, sPrev.revenue)], [`Avg ${wd.sale}`, naira(sCur.txns ? sCur.revenue / sCur.txns : 0), delta(sCur.revenue / (sCur.txns || 1), sPrev.revenue / (sPrev.txns || 1))], ["Gross margin", `${margin(sCur).toFixed(1)}%`, delta(margin(sCur), margin(sPrev))]].map(([l, v, d]) => (
-              <div key={l as string}><div className="text-[12px] text-a-mute">{l as string}</div><div className="font-display text-[16px] tabular-nums text-a-fg sm:text-[20px]">{v as string}</div><DeltaPill value={d as number | null} /></div>
+              <div key={l as string} className="min-w-0"><div className="truncate text-[12px] text-a-mute">{l as string}</div><div className="break-words font-display text-[15px] tabular-nums text-a-fg sm:text-[20px]">{v as string}</div><DeltaPill value={d as number | null} /></div>
             ))}
           </div>
           <CompareChart labels={cur.map((d) => dayShort(d.date))} current={cur.map((d) => d.revenue)} previous={prev.map((d) => d.revenue)} format={naira} />
@@ -118,8 +118,8 @@ export default function Dashboard() {
               <li key={t.name} className="flex items-center gap-3 px-5 py-3 text-[13.5px]">
                 <span className="grid h-7 w-7 flex-none place-items-center rounded-lg bg-a-surface2 text-[12px] font-bold tabular-nums text-a-mute">{i + 1}</span>
                 <span className="min-w-0 flex-1 truncate text-a-fg">{t.name}</span>
-                <span className="text-[12px] tabular-nums text-a-mute">{num(t.qty)} {t.unit}</span>
-                <span className="w-24 text-right font-semibold tabular-nums text-a-fg">{naira(t.revenue)}</span>
+                <span className="hidden flex-none text-[12px] tabular-nums text-a-mute sm:inline">{num(t.qty)} {t.unit}</span>
+                <span className="flex-none text-right font-semibold tabular-nums text-a-fg sm:w-24">{naira(t.revenue)}</span>
               </li>
             ))}
           </ul>

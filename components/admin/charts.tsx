@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+const cx = (...a: (string | false | null | undefined)[]) => a.filter(Boolean).join(" ");
 
 const path = (pts: [number, number][]) => pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ");
 
@@ -64,7 +65,7 @@ export function Donut({ items, center, centerLabel }: { items: { name: string; v
       </svg>
       <ul className="min-w-[150px] flex-1 space-y-2 text-[13px]">
         {items.map((it, i) => (
-          <li key={it.name} className="flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-sm" style={{ background: DONUT[i % 5] }} /><span className="text-a-fg">{it.name}</span><span className="ml-auto tabular-nums text-a-mute">{Math.round((it.value / total) * 100)}%</span></li>
+          <li key={it.name} className="flex min-w-0 items-center gap-2"><i className="h-2.5 w-2.5 flex-none rounded-sm" style={{ background: DONUT[i % 5] }} /><span className="min-w-0 truncate text-a-fg">{it.name}</span><span className="ml-auto tabular-nums text-a-mute">{Math.round((it.value / total) * 100)}%</span></li>
         ))}
       </ul>
     </div>
@@ -74,23 +75,28 @@ export function Donut({ items, center, centerLabel }: { items: { name: string; v
 export function Heatmap({ grid }: { grid: number[][] }) {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const [tip, setTip] = useState<string | null>(null);
+  const [sel, setSel] = useState<string | null>(null);
+  const hours = grid[0]?.length ?? 24;
+  const label = (d: number, h: number, v: number) => `${days[d]} ${String(h).padStart(2, "0")}:00 · ${Math.round(v * 100)}% of peak`;
+  const cols = { gridTemplateColumns: `auto repeat(${hours}, minmax(0, 1fr))` };
   return (
-    <div>
-      <div className="overflow-x-auto">
-        <div className="min-w-[560px]">
-          {grid.map((row, d) => (
-            <div key={d} className="flex items-center gap-[3px] py-[1.5px]">
-              <span className="w-9 flex-none text-[11px] text-a-mute">{days[d]}</span>
-              {row.map((v, h) => (
-                <div key={h} className="aspect-square flex-1 rounded-[3px]" style={{ background: `rgb(var(--a-accent) / ${0.07 + v * 0.93})` }}
-                  onMouseEnter={() => setTip(`${days[d]} ${String(h).padStart(2, "0")}:00 · ${Math.round(v * 100)}% of peak`)} onMouseLeave={() => setTip(null)} />
-              ))}
-            </div>
-          ))}
-          <div className="mt-1 flex pl-9 text-[10.5px] text-a-mute">{[0, 6, 12, 18, 23].map((h) => <span key={h} style={{ marginLeft: h === 0 ? 0 : undefined, flex: h === 0 ? "0 0 0" : 1 }}>{String(h).padStart(2, "0")}</span>)}</div>
-        </div>
+    <div className="min-w-0">
+      <div className="grid items-center gap-[2px] sm:gap-[3px]" style={cols} role="img" aria-label="Sales by hour and weekday, darker means busier">
+        {grid.map((row, d) => [
+          <span key={`l${d}`} className="pr-1.5 text-[10.5px] text-a-mute sm:pr-2 sm:text-[11px]">{days[d]}</span>,
+          ...row.map((v, h) => {
+            const id = `${d}-${h}`;
+            return (
+              <div key={id} className={cx("aspect-square min-w-0 rounded-[2px] sm:rounded-[3px]", sel === id && "ring-2 ring-a-fg ring-offset-1 ring-offset-a-surface")} style={{ background: `rgb(var(--a-accent) / ${0.07 + v * 0.93})` }}
+                onMouseEnter={() => setTip(label(d, h, v))} onMouseLeave={() => setTip(null)}
+                onClick={() => { setSel(sel === id ? null : id); setTip(sel === id ? null : label(d, h, v)); }} />
+            );
+          }),
+        ])}
+        <span />
+        {Array.from({ length: hours }, (_, h) => <span key={`h${h}`} className="mt-1 whitespace-nowrap text-[10px] text-a-mute sm:text-[10.5px]">{h % 6 === 0 ? String(h).padStart(2, "0") : ""}</span>)}
       </div>
-      <div className="mt-2 h-4 text-[12px] text-a-mute" aria-live="polite">{tip ?? "Hover a cell · darker means busier"}</div>
+      <div className="mt-2 min-h-4 text-[12px] text-a-mute" aria-live="polite">{tip ?? (sel ? null : "Hover or tap a cell · darker means busier")}</div>
     </div>
   );
 }
@@ -103,7 +109,7 @@ export function StackBar({ items }: { items: { name: string; value: number }[] }
         {items.map((it, i) => <div key={it.name} style={{ width: `${(it.value / total) * 100}%`, background: DONUT[i % 5] }} />)}
       </div>
       <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-[12.5px]">
-        {items.map((it, i) => <li key={it.name} className="flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-sm" style={{ background: DONUT[i % 5] }} /><span className="text-a-mute">{it.name}</span><b className="ml-auto tabular-nums text-a-fg">{it.value}</b></li>)}
+        {items.map((it, i) => <li key={it.name} className="flex min-w-0 items-center gap-2"><i className="h-2.5 w-2.5 flex-none rounded-sm" style={{ background: DONUT[i % 5] }} /><span className="min-w-0 truncate text-a-mute">{it.name}</span><b className="ml-auto tabular-nums text-a-fg">{it.value}</b></li>)}
       </ul>
     </div>
   );

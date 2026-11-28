@@ -37,10 +37,10 @@ export function Button({ variant = "secondary", size = "md", icon, className, ch
 
 export function Card({ title, action, children, className, pad = true }: { title?: ReactNode; action?: ReactNode; children: ReactNode; className?: string; pad?: boolean }) {
   return (
-    <section className={cx("rounded-2xl border border-a-line bg-a-surface", className)}>
+    <section className={cx("min-w-0 rounded-2xl border border-a-line bg-a-surface", className)}>
       {(title || action) && (
         <header className="flex items-center justify-between gap-3 px-5 pt-4 pb-1">
-          <h2 className="font-display text-[15px] text-a-fg">{title}</h2>
+          <h2 className="min-w-0 font-display text-[15px] text-a-fg">{title}</h2>
           {action}
         </header>
       )}
@@ -63,19 +63,19 @@ export function KpiCard({ label, value, delta, spark, href, hint }: { label: str
   const body = (
     <div className="flex h-full flex-col justify-between gap-3 p-4">
       <div className="flex items-start justify-between gap-2">
-        <span className="text-[12px] font-medium text-a-mute">{label}</span>
+        <span className="min-w-0 text-[12px] font-medium text-a-mute">{label}</span>
         {delta !== undefined && <DeltaPill value={delta} />}
       </div>
-      <div className="flex items-end justify-between gap-3">
-        <div>
-          <div className="font-display text-[24px] leading-none tabular-nums text-a-fg">{value}</div>
+      <div className="flex min-w-0 items-end justify-between gap-3">
+        <div className="min-w-0">
+          <div className="break-words font-display text-[19px] leading-tight tabular-nums text-a-fg sm:text-[24px] sm:leading-none">{value}</div>
           {hint && <div className="mt-1.5 text-[11.5px] text-a-mute">{hint}</div>}
         </div>
-        {spark && <Sparkline data={spark} className="h-9 w-24" />}
+        {spark && <Sparkline data={spark} className="h-9 w-16 flex-none sm:w-24" />}
       </div>
     </div>
   );
-  const cls = "block rounded-2xl border border-a-line bg-a-surface";
+  const cls = "block min-w-0 rounded-2xl border border-a-line bg-a-surface";
   return href ? <Link href={href} className={cx(cls, "transition-colors hover:border-a-mute/50")}>{body}</Link> : <div className={cls}>{body}</div>;
 }
 

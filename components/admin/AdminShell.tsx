@@ -32,14 +32,14 @@ function Frame({ children }: { children: ReactNode }) {
   }, [setPaletteOpen]);
 
   return (
-    <div className="admin-root min-h-screen" data-admin-theme={theme}>
+    <div className="admin-root min-h-screen overflow-x-clip" data-admin-theme={theme}>
       <a href="#admin-main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-a-accent focus:px-3 focus:py-2 focus:text-a-accent-fg">Skip to content</a>
       <Sidebar drawer={drawer} closeDrawer={() => setDrawer(false)} />
-      <div className={`transition-[padding] duration-200 ${collapsed ? "lg:pl-[68px]" : "lg:pl-[256px]"}`}>
+      <div className={`min-w-0 transition-[padding] duration-200 ${collapsed ? "lg:pl-[68px]" : "lg:pl-[256px]"}`}>
         <Topbar openDrawer={() => setDrawer(true)} />
         <main id="admin-main" className="mx-auto w-full max-w-[1480px] px-4 pb-16 pt-6 sm:px-6">
           {ready ? children : <div className="space-y-4"><Skeleton className="h-8 w-64" /><Skeleton className="h-48 w-full" /><Skeleton className="h-64 w-full" /></div>}
-          <footer className="mt-10 flex items-center justify-between text-[12px] text-a-mute">
+          <footer className="mt-10 flex flex-wrap items-center justify-between gap-2 text-[12px] text-a-mute">
             <span>Demo data · connect your database to go live</span>
             <a className="hover:text-a-fg" href="/contact">Documentation &amp; support</a>
           </footer>

@@ -66,7 +66,7 @@ export default function Topbar({ openDrawer }: { openDrawer: () => void }) {
         </>)}
       </Menu>
 
-      <button onClick={toggleTheme} aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"} className="grid h-9 w-9 place-items-center rounded-lg text-a-mute hover:bg-a-surface2 hover:text-a-fg"><Icon name={theme === "dark" ? "sun" : "moon"} /></button>
+      <button onClick={toggleTheme} aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"} className="grid h-9 w-9 place-items-center rounded-lg text-a-mute hover:bg-a-surface2 hover:text-a-fg max-[359px]:hidden"><Icon name={theme === "dark" ? "sun" : "moon"} /></button>
 
       <Menu sheet label="Account" align="right" width={250} button={() => (
         <span className="flex items-center gap-2 rounded-lg p-0.5 pr-1.5 hover:bg-a-surface2">
